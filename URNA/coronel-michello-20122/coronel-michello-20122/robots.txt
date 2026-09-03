@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://SEU-USUARIO.github.io/coronel-michello-20122/sitemap.xml

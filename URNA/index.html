@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Treine o seu voto — Coronel Michello 20122</title>
+<meta name="description" content="Simulador para treinar a votação no Coronel Michello, Deputado Distrital, 20122. Material de campanha.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.michello.com.br/urna/">
+<meta property="og:title" content="Treine o seu voto — Coronel Michello 20122">
+<meta property="og:description" content="Digite 20122 na urna, confira e confirme. Leva dez segundos e você grava o número.">
+<meta property="og:image" content="https://www.michello.com.br/urna/compartilhar.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+  :root{
+    /* Paleta tirada da arte de campanha */
+    --azul-fundo:#0d1b33;
+    --azul-medio:#16294a;
+    --azul-claro:#22406e;
+    --azul-linha:#2f5288;
+    --creme:#eef1f6;
+    --ouro:#e4bf54;
+    --ouro-escuro:#c9a63f;
+
+    --urna-carcaca:#e8e6e0;
+    --urna-carcaca-escura:#c9c6bd;
+    --tela:#f2f0ea;
+    --tela-borda:#8f8d86;
+    --teclado:#4a4a4a;
+    --tecla:#d9d7d1;
+    --tecla-borda:#b0aea7;
+    --branco:#ffffff;
+    --corrige:#e07b20;
+    --confirma:#2f9e44;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    background:var(--azul-fundo);
+    color:var(--creme);
+    display:flex;align-items:center;justify-content:center;
+    padding:12px;overflow:hidden;
+  }
+
+  .aviso{
+    position:fixed;top:0;left:0;right:0;
+    background:var(--azul-medio);color:#9fb2d0;
+    font-size:11px;line-height:1.4;text-align:center;
+    padding:6px 12px;border-bottom:1px solid var(--azul-linha);
+    z-index:50;
+  }
+
+  .palco{width:100%;max-width:760px}
+
+  /* ---------- Tela inicial ---------- */
+  .inicio{
+    text-align:center;padding:26px 8px;
+    display:flex;flex-direction:column;align-items:center;
+  }
+  .retrato{
+    width:132px;height:132px;border-radius:50%;
+    object-fit:cover;object-position:center 18%;
+    border:3px solid var(--azul-linha);
+    margin-bottom:18px;
+  }
+  .logo{
+    width:100%;max-width:290px;height:auto;
+    display:block;margin:0 auto 18px;
+  }
+  .inicio p{
+    font-size:15px;color:#a4b6d3;line-height:1.55;
+    max-width:36ch;margin:0 auto 24px;
+  }
+  .btn-principal{
+    background:var(--ouro);color:#0d1b33;border:none;
+    font-size:17px;font-weight:700;font-family:inherit;
+    padding:15px 34px;border-radius:8px;cursor:pointer;
+  }
+  .btn-principal:active{transform:translateY(1px);background:var(--ouro-escuro)}
+  .btn-principal:focus-visible{outline:3px solid #f0d78e;outline-offset:3px}
+
+  /* ---------- Urna ---------- */
+  .urna{
+    background:var(--urna-carcaca);
+    border:2px solid var(--urna-carcaca-escura);
+    border-radius:10px;padding:14px;
+    display:grid;grid-template-columns:1.45fr 1fr;gap:14px;
+    box-shadow:0 18px 50px rgba(0,0,0,.55);
+  }
+
+  .visor{
+    background:var(--tela);
+    border:2px solid var(--tela-borda);
+    color:#101010;padding:12px 13px;
+    display:flex;flex-direction:column;
+    min-height:290px;font-size:13px;
+  }
+  .visor-topo{display:flex;justify-content:space-between;gap:10px}
+  .rotulo{font-size:11px;letter-spacing:.04em}
+  .cargo{font-size:19px;font-weight:700;margin:1px 0 12px}
+  .linha-numero{display:flex;align-items:center;gap:7px;margin-bottom:12px}
+  .linha-numero span{font-size:12px}
+  .caixas{display:flex;gap:4px}
+  .caixa{
+    width:25px;height:32px;border:1px solid #6b6b6b;background:#fff;
+    display:flex;align-items:center;justify-content:center;
+    font-size:19px;font-weight:700;
+  }
+  .caixa.ativa{border-color:#000;box-shadow:inset 0 0 0 1px #000}
+  .foto{
+    width:88px;height:110px;flex:none;
+    border:1px solid #6b6b6b;background:#dcdad4;
+    object-fit:cover;object-position:center 15%;display:none;
+  }
+  .foto.visivel{display:block}
+  .dados{flex:1;font-size:13px;line-height:1.5}
+  .dados .nome{font-weight:700;font-size:15px}
+  .instrucao{margin-top:auto;padding-top:10px;font-size:11px;line-height:1.55}
+  .instrucao strong{font-weight:700}
+
+  .fim{
+    display:none;flex:1;align-items:center;justify-content:center;
+    font-size:52px;font-weight:700;letter-spacing:.16em;
+  }
+  .visor.encerrado .conteudo{display:none}
+  .visor.encerrado .fim{display:flex}
+
+  .teclado{
+    background:var(--teclado);border-radius:6px;padding:11px;
+    display:grid;grid-template-columns:repeat(3,1fr);gap:8px;align-content:start;
+  }
+  .tecla{
+    font-family:inherit;font-size:22px;font-weight:700;
+    background:var(--tecla);color:#1a1a1a;
+    border:1px solid var(--tecla-borda);border-radius:5px;
+    aspect-ratio:1.35/1;cursor:pointer;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .tecla:active{background:#bfbdb7;transform:translateY(1px)}
+  .tecla:focus-visible{outline:3px solid #8ab4f8;outline-offset:2px}
+  .tecla.larga{grid-column:span 3;aspect-ratio:auto;padding:12px;font-size:15px;letter-spacing:.06em}
+  .tecla.branco{background:var(--branco)}
+  .tecla.corrige{background:var(--corrige);color:#fff;border-color:#b25f14}
+  .tecla.confirma{background:var(--confirma);color:#fff;border-color:#227a35}
+  .tecla[disabled]{opacity:.45;cursor:default}
+
+  /* ---------- Tela final ---------- */
+  .celebra{text-align:center;padding:26px 10px;display:flex;flex-direction:column;align-items:center}
+  .celebra h2{font-size:24px;font-weight:700;margin-bottom:8px;line-height:1.25}
+  .celebra p{font-size:15px;color:#a4b6d3;line-height:1.55;max-width:34ch;margin-bottom:22px}
+  .acoes{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+  .btn-secundario{
+    background:transparent;color:var(--creme);
+    border:1px solid var(--azul-linha);
+    font-family:inherit;font-size:15px;font-weight:600;
+    padding:13px 22px;border-radius:8px;cursor:pointer;
+  }
+  .btn-secundario:active{background:var(--azul-medio)}
+  .btn-secundario:focus-visible{outline:3px solid #8ab4f8;outline-offset:2px}
+
+  .rodape{text-align:center;font-size:11px;color:#7d8fae;margin-top:14px;line-height:1.6}
+
+  .oculto{display:none !important}
+
+  @media (max-width:620px){
+    .urna{grid-template-columns:1fr;gap:10px;padding:10px}
+    .visor{min-height:auto}
+    .cargo{font-size:17px}
+    .fim{font-size:40px;padding:26px 0}
+    .tecla{font-size:20px;aspect-ratio:1.6/1}
+    .retrato{width:112px;height:112px}
+    .logo{max-width:240px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+</head>
+<body>
+
+<div class="aviso" id="aviso"></div>
+
+<div class="palco">
+
+  <!-- Tela inicial -->
+  <section class="inicio" id="inicio">
+    <img class="retrato" id="retrato" alt="">
+    <img class="logo" id="logo" alt="">
+    <p id="texto-inicio"></p>
+    <button class="btn-principal" id="btn-comecar">Começar a treinar</button>
+  </section>
+
+  <!-- Urna -->
+  <section class="urna oculto" id="urna">
+    <div class="visor" id="visor">
+      <div class="conteudo" style="display:flex;flex-direction:column;flex:1">
+        <div class="visor-topo">
+          <div style="flex:1">
+            <div class="rotulo">SEU VOTO PARA</div>
+            <div class="cargo" id="cargo"></div>
+            <div class="linha-numero">
+              <span>Número:</span>
+              <div class="caixas" id="caixas"></div>
+            </div>
+            <div class="dados" id="dados"></div>
+          </div>
+          <img class="foto" id="foto" alt="">
+        </div>
+        <div class="instrucao" id="instrucao"></div>
+      </div>
+      <div class="fim" id="fim">FIM</div>
+    </div>
+
+    <div class="teclado" id="teclado">
+      <button class="tecla" data-n="1">1</button>
+      <button class="tecla" data-n="2">2</button>
+      <button class="tecla" data-n="3">3</button>
+      <button class="tecla" data-n="4">4</button>
+      <button class="tecla" data-n="5">5</button>
+      <button class="tecla" data-n="6">6</button>
+      <button class="tecla" data-n="7">7</button>
+      <button class="tecla" data-n="8">8</button>
+      <button class="tecla" data-n="9">9</button>
+      <button class="tecla" data-n="0" style="grid-column:2">0</button>
+      <button class="tecla larga branco" id="t-branco">BRANCO</button>
+      <button class="tecla larga corrige" id="t-corrige">CORRIGE</button>
+      <button class="tecla larga confirma" id="t-confirma">CONFIRMA</button>
+    </div>
+  </section>
+
+  <!-- Tela final -->
+  <section class="celebra oculto" id="celebra">
+    <img class="retrato" id="retrato2" alt="">
+    <h2 id="titulo-fim"></h2>
+    <p id="texto-fim"></p>
+    <div class="acoes">
+      <button class="btn-principal" id="btn-compartilhar">Mandar pra um amigo</button>
+      <button class="btn-secundario" id="btn-denovo">Treinar de novo</button>
+    </div>
+  </section>
+
+  <p class="rodape" id="rodape"></p>
+</div>
+
+<script>
+/* ============================================================
+   CONFIGURAÇÃO — edite só este bloco
+   ============================================================ */
+const CONFIG = {
+  cargo: "Deputado Distrital",
+  digitos: 5,
+  numero: "20122",
+
+  nome: "CORONEL MICHELLO",
+  partido: "Podemos",
+  foto: "coronel-michello.jpg",
+  logo: "logo-michello.png",
+
+  textoInicio: "Digite o número na urna, confira o rosto na tela e aperte CONFIRMA. Em dez segundos você grava.",
+
+  tituloFim: "Pronto. Agora não esquece mais.",
+  textoFim: "No dia 4 de outubro é assim, do mesmo jeito. Manda pra alguém que precisa treinar também.",
+  textoCompartilhar: "VOTE 20122 - treine o seu voto aqui:",
+
+  aviso: "Simulador para treino. Não é o sistema oficial do TSE.",
+  rodape: "Propaganda eleitoral. ELEIÇÃO 2026 MICHELLO BUENO GONÇALVES OLIVEIRA DEPUTADO DISTRITAL — CNPJ 68.462.311/0001-06.",
+
+  som: true
+};
+/* ====== fim da configuração ====== */
+
+
+const $ = id => document.getElementById(id);
+let digitado = "";
+let encerrado = false;
+
+$("aviso").textContent = CONFIG.aviso;
+$("texto-inicio").textContent = CONFIG.textoInicio;
+if (CONFIG.logo) {
+  $("logo").src = CONFIG.logo;
+  $("logo").alt = CONFIG.cargo + " " + CONFIG.nome + " " + CONFIG.numero + " " + CONFIG.partido;
+}
+$("cargo").textContent = CONFIG.cargo;
+$("titulo-fim").textContent = CONFIG.tituloFim;
+$("texto-fim").textContent = CONFIG.textoFim;
+$("rodape").textContent = CONFIG.rodape;
+
+if (CONFIG.foto) {
+  $("retrato").src = CONFIG.foto;  $("retrato").alt = CONFIG.nome;
+  $("retrato2").src = CONFIG.foto; $("retrato2").alt = CONFIG.nome;
+}
+
+const caixas = $("caixas");
+for (let i = 0; i < CONFIG.digitos; i++) {
+  const c = document.createElement("div");
+  c.className = "caixa";
+  caixas.appendChild(c);
+}
+const todasCaixas = () => [...caixas.children];
+
+function bipe(duracao = 200, freq = 880) {
+  if (!CONFIG.som) return;
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const ganho = ctx.createGain();
+    osc.type = "square";
+    osc.frequency.value = freq;
+    ganho.gain.value = 0.12;
+    osc.connect(ganho); ganho.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + duracao / 1000);
+    osc.onended = () => ctx.close();
+  } catch (e) {}
+  if (navigator.vibrate) navigator.vibrate(35);
+}
+
+function desenhar() {
+  todasCaixas().forEach((c, i) => {
+    c.textContent = digitado[i] || "";
+    c.classList.toggle("ativa", i === digitado.length);
+  });
+
+  const completo = digitado.length === CONFIG.digitos;
+  const acertou = completo && digitado === CONFIG.numero;
+  const dados = $("dados");
+  const foto = $("foto");
+
+  if (acertou) {
+    dados.innerHTML = '<div class="nome">' + CONFIG.nome + '</div><div>' + CONFIG.partido + '</div>';
+    if (CONFIG.foto) { foto.src = CONFIG.foto; foto.classList.add("visivel"); }
+  } else if (completo) {
+    dados.innerHTML = "<div>NÚMERO ERRADO</div><div>Aperte CORRIGE e digite de novo.</div>";
+    foto.classList.remove("visivel");
+  } else {
+    dados.innerHTML = "";
+    foto.classList.remove("visivel");
+  }
+
+  $("instrucao").innerHTML = completo
+    ? "Aperte a tecla:<br><strong>CONFIRMA</strong> para CONFIRMAR este voto<br><strong>CORRIGE</strong> para REINICIAR este voto"
+    : "";
+
+  $("t-confirma").disabled = !acertou;
+}
+
+function digitar(n) {
+  if (encerrado || digitado.length >= CONFIG.digitos) return;
+  digitado += n;
+  bipe(90, 1200);
+  desenhar();
+}
+function corrigir() {
+  if (encerrado) return;
+  digitado = "";
+  bipe(90, 700);
+  desenhar();
+}
+function travarTeclado() {
+  [...$("teclado").querySelectorAll("button")].forEach(b => b.disabled = true);
+}
+function confirmar() {
+  if (encerrado || digitado !== CONFIG.numero) return;
+  encerrado = true;
+  $("visor").classList.add("encerrado");
+  $("fim").textContent = "FIM";
+  travarTeclado();
+  bipe(750, 880);
+  setTimeout(() => {
+    $("urna").classList.add("oculto");
+    $("celebra").classList.remove("oculto");
+  }, 1700);
+}
+function branco() {
+  if (encerrado || digitado.length) return;
+  encerrado = true;
+  $("visor").classList.add("encerrado");
+  $("fim").textContent = "BRANCO";
+  $("fim").style.fontSize = "34px";
+  travarTeclado();
+  bipe(400, 600);
+}
+function reiniciar() {
+  digitado = "";
+  encerrado = false;
+  $("visor").classList.remove("encerrado");
+  $("fim").style.fontSize = "";
+  [...$("teclado").querySelectorAll("button")].forEach(b => b.disabled = false);
+  desenhar();
+}
+function irParaUrna() {
+  $("inicio").classList.add("oculto");
+  $("celebra").classList.add("oculto");
+  $("urna").classList.remove("oculto");
+  reiniciar();
+}
+
+$("teclado").addEventListener("click", e => {
+  const b = e.target.closest("button");
+  if (!b || b.disabled || !b.dataset.n) return;
+  digitar(b.dataset.n);
+});
+$("t-corrige").addEventListener("click", corrigir);
+$("t-confirma").addEventListener("click", confirmar);
+$("t-branco").addEventListener("click", branco);
+$("btn-comecar").addEventListener("click", irParaUrna);
+$("btn-denovo").addEventListener("click", irParaUrna);
+
+$("btn-compartilhar").addEventListener("click", async () => {
+  const texto = CONFIG.textoCompartilhar + " " + location.href;
+  if (navigator.share) {
+    try { await navigator.share({ text: texto }); return; } catch (e) { return; }
+  }
+  window.open("https://wa.me/?text=" + encodeURIComponent(texto), "_blank");
+});
+
+document.addEventListener("keydown", e => {
+  if ($("urna").classList.contains("oculto")) return;
+  if (/^[0-9]$/.test(e.key)) digitar(e.key);
+  if (e.key === "Backspace") { e.preventDefault(); corrigir(); }
+  if (e.key === "Enter") confirmar();
+});
+
+desenhar();
+</script>
+</body>
+</html>

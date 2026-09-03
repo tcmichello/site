@@ -1,0 +1,119 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Papéis tipográficos.
+       - display: Archivo, grotesca de peso editorial (títulos)
+       - body:    IBM Plex Sans, leitura longa com tom institucional
+       - mono:    IBM Plex Mono, usada para o que é "registro": rótulos de
+                  seção, fontes citadas, contadores e carimbos de tempo. */
+    --font-display: 'Archivo', 'Archivo Fallback', system-ui, sans-serif;
+    --font-body: 'IBM Plex Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --font-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', 'Menlo', monospace;
+
+    /* Cores amostradas da logo oficial da MobilizaX */
+    --brand-blue: 0 173 249;
+    --brand-aqua: 20 233 225;
+    --brand-green: 88 228 90;
+    --brand-lime: 212 252 76;
+
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    /* compensa o cabeçalho fixo ao pular para as âncoras */
+    scroll-padding-top: 5.5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink font-sans text-paper antialiased;
+    /* trava definitiva contra rolagem horizontal em telas estreitas */
+    overflow-x: hidden;
+  }
+
+  /* Nenhum elemento pode estourar a largura do viewport no mobile */
+  img,
+  svg,
+  video,
+  canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display font-extrabold text-balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand-cyan ring-offset-2 ring-offset-ink;
+    border-radius: 4px;
+  }
+
+  ::selection {
+    background: rgb(var(--brand-aqua) / 0.28);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Contêiner único da página — evita margens conflitantes entre seções */
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8;
+  }
+
+  /* Rótulo de seção em monoespaçada: marca o conteúdo como "registro" */
+  .eyebrow {
+    @apply font-mono text-eyebrow font-medium uppercase text-brand-aqua;
+  }
+
+  .hairline {
+    @apply border-t border-line-soft;
+  }
+
+  /* Superfície padrão dos cartões */
+  .surface {
+    @apply rounded-card border border-line bg-ink-700/70 shadow-card;
+  }
+
+  /* Texto com o gradiente da marca (ciano -> verde), usado com parcimônia */
+  .brand-gradient-text {
+    @apply bg-gradient-to-r from-brand-blue via-brand-aqua to-brand-green bg-clip-text text-transparent;
+  }
+
+  /* Malha de fundo herdada da arte da logo */
+  .grid-backdrop {
+    background-image: linear-gradient(rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
