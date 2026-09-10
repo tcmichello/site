@@ -29,7 +29,7 @@
 "jobTitle":"Tenente-Coronel da Polícia Militar do Distrito Federal",
 "birthDate":"1976-10-01","birthPlace":{"@type":"Place","name":"Brasília, Distrito Federal"},
 "affiliation":{"@type":"Organization","name":"Podemos"},
-"sameAs":["https://www.instagram.com/tc_michello","https://www.tiktok.com/@tc.michello"]}
+"sameAs":["https://www.instagram.com/tc_michello"]}
 </script>
 </head>
 <body>
@@ -46,8 +46,6 @@
         <span class="topbar__ico" aria-hidden="true">♥</span> Apoiar</a>
       <a href="https://www.instagram.com/tc_michello" target="_blank" rel="noopener">
         <span class="topbar__ico" aria-hidden="true">◲</span> Instagram</a>
-      <a href="https://www.tiktok.com/@tc.michello" target="_blank" rel="noopener">
-        <span class="topbar__ico" aria-hidden="true">♪</span> TikTok</a>
       <a href="https://docs.google.com/forms/d/e/1FAIpQLScAlYDu-X0psfz8Ag7cbCkgTQwkevOfA6ScmFfhBeKpEHUvGw/viewform" target="_blank" rel="noopener" class="topbar__zap">
         <span class="topbar__ico" aria-hidden="true">✚</span> Ser apoiador</a>
     </nav>
@@ -61,7 +59,8 @@
       <span class="nav__num">20122</span>
     </a>
     <nav class="nav__links" aria-label="Navegação principal">
-      <a href="#regiao">Pautas</a>
+      <a href="#propostas">Propostas</a>
+      <a href="#regiao">Regiões</a>
       <a href="#quem">Quem sou eu</a>
       <a href="#urna">Treine seu voto</a>
       <a href="#provas">Por que acreditar</a>
@@ -74,6 +73,7 @@
     </button>
   </div>
   <div class="menu-mobile" id="menuMobile" hidden>
+    <a href="#propostas">Minhas propostas</a>
     <a href="#regiao">Pautas por regiões</a>
     <a href="#quem">Quem sou eu</a>
     <a href="#urna">Treine seu voto</a>
@@ -109,12 +109,37 @@
       </p>
 
       <div class="hero__acoes" data-anim="5">
-        <a class="btn btn--ouro btn--g" href="#regiao">O que eu faço pela sua região</a>
-        <button class="jplay" id="jinglePlay" type="button" aria-label="Tocar o jingle">
-          <span class="jplay__ico" id="jingleIco" aria-hidden="true"></span>
-          <span class="jplay__txt"><b id="jingleRotulo">Ouvir o jingle</b><span>aumente o som</span></span>
-          <span class="jplay__onda" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        </button>
+        <a class="btn btn--ouro btn--g" href="#propostas">Ver minhas propostas</a>
+      </div>
+
+      <div class="atalhos" data-anim="6">
+        <a class="atalho atalho--doar" href="https://tcmichello.com.br" target="_blank" rel="noopener">
+          <span class="atalho__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1.1 1L12 21l7.7-7.6 1.1-1a5.5 5.5 0 0 0 0-7.8Z"/></svg>
+          </span>
+          <span class="atalho__txt"><b>Doar</b><span>Vaquinha oficial</span></span>
+        </a>
+
+        <a class="atalho" href="https://docs.google.com/forms/d/e/1FAIpQLScAlYDu-X0psfz8Ag7cbCkgTQwkevOfA6ScmFfhBeKpEHUvGw/viewform" target="_blank" rel="noopener">
+          <span class="atalho__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6"/><path d="M22 11h-6"/></svg>
+          </span>
+          <span class="atalho__txt"><b>Ser apoiador</b><span>Cadastro rápido</span></span>
+        </a>
+
+        <a class="atalho" href="https://www.agregamigos.com.br/michello-bueno/link-cadastro" target="_blank" rel="noopener">
+          <span class="atalho__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </span>
+          <span class="atalho__txt"><b>Seja meu amigo</b><span>AgregAmigos</span></span>
+        </a>
+
+        <a class="atalho" href="https://tcmichello.github.io/filtro/" target="_blank" rel="noopener">
+          <span class="atalho__ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="3.6"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor"/></svg>
+          </span>
+          <span class="atalho__txt"><b>Filtro oficial</b><span>Para seus stories</span></span>
+        </a>
       </div>
       <audio id="jingleAudio" preload="none"><source src="jingle-michello.mp3" type="audio/mpeg"></audio>
     </div>
@@ -173,34 +198,29 @@
 
     <div class="painel" id="painel" aria-live="polite"></div>
 
-    <div class="promessas">
-      <p class="promessas__topo">E em todas elas, três compromissos</p>
-      <div class="pgrid">
-        <article class="pcard" data-reveal>
-          <span class="pcard__n">01</span>
-          <h3>Cidade segura</h3>
-          <p>Mais iluminação, câmeras, recuperação de áreas degradadas, manejo adequado do lixo e
-            cuidado permanente de praças, parques, áreas comerciais e espaços de convivência.</p>
-        </article>
-        <article class="pcard" data-reveal>
-          <span class="pcard__n">02</span>
-          <h3>Ordem e dignidade nas ruas</h3>
-          <p>Segurança, assistência social e fiscalização atuando de forma integrada para enfrentar
-            ocupações irregulares, recuperar espaços públicos e proteger moradores e comerciantes.</p>
-        </article>
-        <article class="pcard" data-reveal>
-          <span class="pcard__n">03</span>
-          <h3>Forças de segurança valorizadas</h3>
-          <p>Valorizar quem está na linha de frente e ampliar a integração entre as forças do DF e
-            as federais. Criar o <b>Observatório Distrital de Segurança</b>, usando dados para
-            orientar ações contra o crime organizado.</p>
-        </article>
-      </div>
-    </div>
   </div>
 </section>
 
-<!-- ============ 3. QUEM É ============ -->
+<!-- ============ MINHAS PROPOSTAS ============ -->
+<section class="props" id="propostas">
+  <div class="wrap">
+    <div class="secao">
+      <p class="eyebrow">Ordem sem medo</p>
+      <h2 class="titulo titulo--claro">Minhas propostas</h2>
+      <p class="lead lead--claro">Cinco compromissos e <b>60 ações concretas</b>. Cada uma com
+        prazo, responsável e forma de conferir. Clique para abrir e ver o que eu vou fazer.</p>
+    </div>
+
+    <div class="acc" id="acc"></div>
+
+    <p class="props__fecho" data-reveal>
+      <span>Tudo aqui tem prazo, responsável e forma de conferir.</span>
+      <b>No fim do mandato, cada uma destas ações vira número publicado. É esse o combinado.</b>
+    </p>
+  </div>
+</section>
+
+<!-- ============ QUEM SOU EU ============ -->
 <section class="quem" id="quem">
   <div class="wrap quem__grid">
     <div class="quem__foto" data-reveal>
@@ -545,7 +565,8 @@
   <div class="wrap rodape__centro">
     <img class="rodape__lockup" src="lockup.webp" alt="Coronel Michello 20122" width="900" height="657" loading="lazy">
     <nav class="rodape__links" aria-label="Rodapé">
-      <a href="#regiao">Pautas</a>
+      <a href="#propostas">Propostas</a>
+      <a href="#regiao">Regiões</a>
       <a href="#quem">Quem sou eu</a>
       <a href="#urna">Treine seu voto</a>
       <a href="#provas">Por que acreditar</a>
@@ -556,10 +577,9 @@
     <div class="rodape__contato">
       <a href="https://wa.me/5561995623696" target="_blank" rel="noopener">WhatsApp da campanha</a>
       <a href="https://www.instagram.com/tc_michello" target="_blank" rel="noopener">Instagram @tc_michello</a>
-      <a href="https://www.tiktok.com/@tc.michello" target="_blank" rel="noopener">TikTok @tc.michello</a>
     </div>
     <div class="rodape__legal">
-      <p>CNPJ de campanha: 68.462.311/0001-06 · Conteúdo de propaganda eleitoral.</p>
+      <p>CNPJ de campanha: 20.329.974/0001-20 · Conteúdo de propaganda eleitoral.</p>
       <p>Coronel Michello · Deputado Distrital · Podemos (20) · Distrito Federal · Eleições 2026.</p>
     </div>
   </div>

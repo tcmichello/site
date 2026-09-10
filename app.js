@@ -139,6 +139,67 @@
   })();
 
   /* ==========================================================
+     PROPOSTAS (acordeão)
+     ========================================================== */
+  (function propostas() {
+    var caixa = $("#acc");
+    if (!caixa) return;
+    var lista = D.propostas || [];
+    if (!lista.length) return;
+
+    caixa.innerHTML = lista.map(function (p, i) {
+      var acoes = p.acoes.map(function (a, j) {
+        return '<li><span class="acc__num">' + (j + 1) + "</span>" +
+               '<span class="acc__acao"><b>' + a[0] + "</b> " + a[1] + "</span></li>";
+      }).join("");
+      return '<article class="acc__item" data-reveal>' +
+        '<h3><button type="button" class="acc__cab" aria-expanded="false" aria-controls="acc-p' + i + '">' +
+          '<span class="acc__n">' + p.n + "</span>" +
+          '<span class="acc__tit"><b>' + p.titulo + "</b>" +
+            '<span class="acc__res">' + p.resumo + "</span></span>" +
+          '<span class="acc__conta">12 ações</span>' +
+          '<span class="acc__seta" aria-hidden="true"></span>' +
+        "</button></h3>" +
+        '<div class="acc__corpo" id="acc-p' + i + '" hidden>' +
+          '<div class="acc__miolo">' +
+            '<p class="acc__frase">&ldquo;' + p.frase + '&rdquo;</p>' +
+            '<p class="acc__diag"><b>O problema:</b> ' + p.diagnostico + "</p>" +
+            '<p class="acc__rot">O que eu vou fazer como deputado distrital</p>' +
+            '<ol class="acc__acoes">' + acoes + "</ol>" +
+          "</div>" +
+        "</div>" +
+      "</article>";
+    }).join("");
+
+    caixa.addEventListener("click", function (ev) {
+      var b = ev.target.closest(".acc__cab");
+      if (!b) return;
+      var corpo = document.getElementById(b.getAttribute("aria-controls"));
+      var aberto = b.getAttribute("aria-expanded") === "true";
+
+      $$(".acc__cab", caixa).forEach(function (o) {
+        if (o === b) return;
+        o.setAttribute("aria-expanded", "false");
+        document.getElementById(o.getAttribute("aria-controls")).hidden = true;
+        o.closest(".acc__item").classList.remove("aberto");
+      });
+
+      b.setAttribute("aria-expanded", String(!aberto));
+      corpo.hidden = aberto;
+      b.closest(".acc__item").classList.toggle("aberto", !aberto);
+
+      if (!aberto && !reduzido) {
+        setTimeout(function () {
+          var r = b.getBoundingClientRect();
+          if (r.top < 90) window.scrollBy({ top: r.top - 110, behavior: "smooth" });
+        }, 60);
+      }
+    });
+
+    ligarReveal(caixa);
+  })();
+
+  /* ==========================================================
      JINGLE
      ========================================================== */
   (function jingle() {
@@ -532,7 +593,6 @@
     if (!ul) return;
     var L = D.links || {};
     var itens = [
-      { ico: "TT", nome: "TikTok @tc.michello",        desc: "Vídeos curtos e bastidores", url: L.tiktok },
       { ico: "WA", nome: "WhatsApp da campanha",        desc: "Fale direto com a equipe",   url: L.whatsapp },
       { ico: "+",  nome: "Seja meu amigo",             desc: "Cadastro oficial de apoiador", url: L.amigos },
       { ico: "✚", nome: "Quero ser apoiador",         desc: "Formulário da campanha",     url: L.formulario },

@@ -30,13 +30,12 @@ window.DADOS = {
 
     whatsapp:    "5561995623696",              // só números, com 55 na frente
     instagram:   "tc_michello",
-    tiktok:      "tc.michello",
 
     // >>> CONFERIR COM O JURÍDICO <<<
     // A landing oficial (tcmichello.github.io/ordemsemmedo) informa este CNPJ de campanha.
     // O material impresso que a equipe enviou traz outro: 20.329.974/0001-20.
     // Confirme qual é o correto ANTES de publicar, é exigência do TSE.
-    cnpj:        "68.462.311/0001-06",
+    cnpj:        "20.329.974/0001-20",
 
     urlSite:     "https://tcmichello.com.br"
   },
@@ -50,7 +49,6 @@ window.DADOS = {
     filtro:    "https://tcmichello.github.io/filtro/",
     amigos:    "https://www.agregamigos.com.br/michello-bueno/link-cadastro",
     instagram: "https://www.instagram.com/tc_michello",
-    tiktok:    "https://www.tiktok.com/@tc.michello",
     whatsapp:  "https://wa.me/5561995623696",
     formulario:"https://docs.google.com/forms/d/e/1FAIpQLScAlYDu-X0psfz8Ag7cbCkgTQwkevOfA6ScmFfhBeKpEHUvGw/viewform"
   },
@@ -78,6 +76,121 @@ window.DADOS = {
     link:         "https://tcmichello.com.br"
   },
 
+
+  /* ----------------------------------------------------------
+     PROPOSTAS
+     Conteúdo integral dos 5 folhetos oficiais "Ordem sem medo".
+     Cada compromisso tem diagnóstico, frase de campanha e as
+     12 ações concretas. Não invente ação: tudo aqui saiu do
+     material impresso aprovado pela campanha.
+     ---------------------------------------------------------- */
+  propostas: [
+    {
+      n: 1,
+      titulo: "Ordem e dignidade nas ruas",
+      resumo: "Acolher, tratar e reinserir, com ordem, regra clara e resultado medido.",
+      frase: "Rua não é lugar de morar. E também não pode virar terra de ninguém.",
+      diagnostico: "O primeiro censo distrital contou 2.938 pessoas em situação de rua em 2022. O levantamento referente a 2025 chegou a 3.521. A nova política de acolhimento entrou em vigor em 2026 e ninguém está cobrando se ela funciona.",
+      acoes: [
+        ["Lei de Metas de Reinserção","o GDF passa a publicar a cada três meses quantas pessoas saíram da rua, por região administrativa."],
+        ["Porta de entrada 24 horas","vaga de acolhimento imediata, sem agendamento, nas regiões de maior concentração."],
+        ["Triplicar as vagas","em comunidades terapêuticas conveniadas, incluindo vagas femininas e para mães com filhos."],
+        ["Contrato de Reinserção","auxílio de transição vinculado a tratamento, capacitação e documentação."],
+        ["Protocolo único de zeladoria","aviso prévio, oferta de vaga antes da retirada e guarda dos pertences por 30 dias."],
+        ["Acolhimento que a pessoa aceita","vagas para casais, para quem tem animal de estimação e com guarda segura de pertences."],
+        ["Documento na mão","mutirão permanente de RG, CPF e carteira de trabalho para quem está em acolhimento."],
+        ["Passe de Retorno","reencontro familiar com passagem custeada e acompanhamento por seis meses."],
+        ["Casa de Transição","moradia assistida por até 18 meses para quem concluiu o tratamento e já está trabalhando."],
+        ["Saúde que vai até a pessoa","mais equipes de Consultório na Rua e CAPS AD abertos 24 horas."],
+        ["Espaço Higiene","banho, barbearia e lavanderia social junto aos restaurantes comunitários."],
+        ["Ronda da Dignidade","mutirão noturno mensal, com vaga garantida antes de qualquer abordagem."]
+      ]
+    },
+    {
+      n: 2,
+      titulo: "Espaços públicos seguros",
+      resumo: "Luz, câmera e zeladoria são política de segurança.",
+      frase: "Onde tem luz e câmera, o crime não trabalha.",
+      diagnostico: "O DF tem cerca de 324 mil luminárias sob um contrato de concessão de 30 anos, com meta de 100% de LED. Contrato longo sem fiscal permanente vira promessa. E o roubo a pedestre voltou a subir em 2026.",
+      acoes: [
+        ["Lei do Mapa da Luz","painel público com todo ponto apagado, prazo de reparo e responsável pelo conserto."],
+        ["Fila decidida por risco","prioridade de luz e câmera onde há registro de crime, e não onde há pressão política."],
+        ["Luz onde a rede não chega","iluminação de becos, vielas e áreas em processo de regularização."],
+        ["Câmeras em praças e parques","com integração obrigatória à central. Câmera que não conversa com o sistema é enfeite."],
+        ["Câmera Amiga","incentivo para morador e comércio integrarem suas câmeras à rede pública de segurança."],
+        ["Padrão mínimo de iluminação","em paradas, passarelas, passagens subterrâneas e no entorno de escolas."],
+        ["Praça Segura","prevenção pelo desenho urbano em toda praça nova ou reformada: visibilidade e nenhum esconderijo."],
+        ["Botão de emergência","totens SOS ligados à central em terminais, estações e praças centrais."],
+        ["Postes solares","solução rápida para trechos rurais, ciclovias e ligações sem rede elétrica."],
+        ["Poste identificado","QR Code em cada poste: você fotografa e a reclamação abre com protocolo."],
+        ["Vistoria noturna mensal","fiscalização do contrato de iluminação com relatório público por região."],
+        ["Canal Acende DF","você manda a foto do ponto escuro e é avisado quando ele acender."]
+      ]
+    },
+    {
+      n: 3,
+      titulo: "Vizinhos protegidos",
+      resumo: "O programa mais querido do DF precisa virar lei.",
+      frase: "Ninguém protege melhor a sua rua do que quem mora nela.",
+      diagnostico: "A Rede de Vizinhos Protegidos existe desde 2017, funciona e nunca virou lei distrital. Hoje até a placa da esquina é paga por vaquinha entre vizinhos. Trocou o comando, o programa pode acabar.",
+      acoes: [
+        ["Lei da Rede de Vizinhos Protegidos","o programa vira política pública permanente do DF, com orçamento e meta de expansão."],
+        ["Kit pago pelo poder público","placa e sinalização não podem depender de vaquinha entre moradores."],
+        ["Meta: as 35 regiões","levar o programa a todas as regiões administrativas, urbanas e rurais."],
+        ["Alerta comunitário oficial","canal verificado ligado à central, para acabar com boato em grupo informal."],
+        ["CONSEGs fortalecidos","calendário de reuniões, ata pública e resposta obrigatória dos órgãos."],
+        ["Guardião Rural em lei","proteção para núcleos rurais, chácaras e produtores do DF."],
+        ["Comércio Protegido","rede de alerta e câmeras integradas para o comerciante e o feirante."],
+        ["Condomínio Protegido","treinamento de síndicos e porteiros e canal direto com o batalhão."],
+        ["Vizinho Idoso Protegido","cadastro, visita periódica e botão de emergência para quem mora sozinho."],
+        ["Educação contra golpes","oficinas em escolas e centros de convivência sobre golpe por Pix e falso funcionário de banco."],
+        ["Dado aberto por quadra","indicadores criminais publicados todo mês, por setor, para a própria comunidade acompanhar."],
+        ["Caravana Sua Quadra Protegida","uma quadra por semana, com a meta de mil novos grupos formados."]
+      ]
+    },
+    {
+      n: 4,
+      titulo: "Preços justos",
+      resumo: "Transparência, fiscal na rua e multa cobrada.",
+      frase: "Você não pode pagar mais caro só porque ninguém está fiscalizando.",
+      diagnostico: "A irregularidade mais autuada nos postos do DF não é o valor cobrado: é a forma de divulgar o preço, com a diferença escondida entre à vista e cartão. Isso é competência distrital, dá para resolver aqui.",
+      acoes: [
+        ["Lei do Preço na Cara","preço à vista, preço no cartão e regra de fidelidade no mesmo tamanho e no mesmo lugar."],
+        ["Painel Distrital de Preços","aplicativo oficial comparando combustível, gás e cesta básica por região administrativa."],
+        ["Preço por quilo e por litro","obrigatório na gôndola e também nos aplicativos de entrega."],
+        ["Lei da Embalagem Honesta","reduziu a quantidade mantendo o preço? Avisa em destaque no ponto de venda por seis meses."],
+        ["Bomba e balança aferidas","laboratório móvel de metrologia e operações conjuntas de fiscalização."],
+        ["Multa que volta para fiscalizar","o produto das multas ao consumidor financia mais fiscalização e educação."],
+        ["Procon perto de casa","postos de atendimento nas regiões administrativas e unidade itinerante em feiras."],
+        ["Caça ao cartel","representação formal sempre que houver alinhamento suspeito de preços no DF."],
+        ["Fiscal do Repasse","redução de imposto só vale se chegar ao preço final do consumidor."],
+        ["Escola sem surpresa","transparência no reajuste da mensalidade e na lista de material."],
+        ["Feirão do devedor","mutirões de renegociação descentralizados, nas regiões e não só no centro."],
+        ["Observatório do Preço Justo","pesquisa mensal de preços por região, publicada pelo mandato."]
+      ]
+    },
+    {
+      n: 5,
+      titulo: "Esporte e futuro",
+      resumo: "Esporte aqui não é lazer: é prevenção.",
+      frase: "Todo jovem dentro do time é um jovem a menos na mão do crime.",
+      diagnostico: "São 12 Centros Olímpicos e Paralímpicos para 35 regiões administrativas, com pouco mais de 12 mil vagas. Fora deles sobra quadra de bairro sem luz, sem manutenção e sem professor.",
+      acoes: [
+        ["Esporte à Noite","quadra aberta e iluminada das 18h às 23h, com monitor, nas regiões de maior violência juvenil."],
+        ["Quadra Aberta","escolas públicas com quadra funcionando aos sábados e domingos, com responsável."],
+        ["Novos Centros Olímpicos","começando pelas regiões com maior população jovem e nenhuma unidade."],
+        ["Meta anual de quadras","reformadas, cobertas e iluminadas, com prazo, placa e data de entrega."],
+        ["Bolsa Atleta de Base","apoio para quem está começando, e não só para quem já chegou."],
+        ["Mais incentivo ao esporte","ampliação da lei distrital, com reserva mínima para projetos na periferia."],
+        ["Tatame Cidadão","judô, boxe, jiu-jitsu, karatê e capoeira em escolas e centros comunitários."],
+        ["Bolsa para o professor","apoio a quem toca projeto social de bairro. Quadra sem professor vira quadra vazia."],
+        ["Passe do Atleta","transporte garantido para treino e competição. Ninguém desiste por causa da passagem."],
+        ["Esporte + Trabalho","prioridade em aprendizagem e primeiro emprego para quem tem frequência no projeto."],
+        ["Jogos das Cidades","olimpíada distrital anual entre as 35 regiões administrativas."],
+        ["Padrinho do Time","policiais e bombeiros voluntários como mentores e técnicos nos projetos de bairro."]
+      ]
+    }
+  ],
 
   /* ----------------------------------------------------------
      REGIÕES
