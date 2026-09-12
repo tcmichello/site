@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Coronel Michello 20122 · Filtro de perfil</title>
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,700;0,900;1,700;1,900&family=Barlow:wght@400;600;700&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --azul-escuro: #112236;
+      --azul:        #1c3a5e;
+      --azul-claro:  #3f6da3;
+      --dourado:     #d8b04a;
+      --dourado-esc: #b8912f;
+      --branco:      #ffffff;
+      --fundo:       #0a1626;
+      --barra:       calc(84px + env(safe-area-inset-bottom));
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+
+    body {
+      font-family: 'Barlow', sans-serif;
+      background: radial-gradient(circle at top, #16304f 0%, var(--fundo) 100%);
+      background-attachment: fixed;
+      min-height: 100vh;
+      display: flex; flex-direction: column; align-items: center;
+      padding: 18px 16px var(--barra);
+      color: var(--branco);
+      overscroll-behavior-y: contain;
+    }
+
+    .header { text-align: center; margin-bottom: 16px; width: 100%; max-width: 500px; }
+    .logo-img { width: min(210px, 56vw); margin: 0 auto 10px; display: none; }
+    .logo-img.on { display: block; }
+    .logo-img img { width: 100%; object-fit: contain; }
+
+    .logo-txt { margin-bottom: 8px; line-height: 1; }
+    .logo-txt .cargo { font-family: 'Barlow Condensed', sans-serif; font-size: .78rem; font-weight: 700; letter-spacing: .18em; color: var(--dourado); }
+    .logo-txt .nome  { font-family: 'Barlow Condensed', sans-serif; font-style: italic; font-weight: 900; font-size: 2.1rem; letter-spacing: .01em; }
+    .logo-txt .nome b { color: var(--dourado); }
+    .logo-txt .num   { font-family: 'Barlow Condensed', sans-serif; font-weight: 900; font-size: 1.6rem; letter-spacing: .04em; }
+    .logo-txt.off { display: none; }
+
+    .header-sub { font-size: .8rem; color: var(--dourado); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+
+    .aviso {
+      width: min(420px, 92vw); margin: 0 0 14px;
+      background: rgba(190, 60, 60, .16); border: 1px solid rgba(230, 120, 120, .45);
+      color: #ffd9d9; border-radius: 14px; padding: 12px 14px;
+      font-size: .78rem; line-height: 1.5; display: none;
+    }
+    .aviso.on { display: block; }
+    .aviso code { background: rgba(0,0,0,.3); padding: 1px 5px; border-radius: 5px; font-size: .76rem; }
+
+    .format-selector { width: min(420px, 92vw); margin-bottom: 16px; }
+    .format-label { font-size: .7rem; color: #92a6bd; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; margin-bottom: 8px; display: block; }
+    .format-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .format-btn {
+      background: rgba(255,255,255,0.05); border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 14px; padding: 10px 6px; cursor: pointer; transition: all .2s;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
+      color: #b9c7d8; font-family: 'Barlow', sans-serif; -webkit-tap-highlight-color: transparent;
+    }
+    .format-btn:hover { border-color: var(--azul-claro); background: rgba(63,109,163,0.14); color: #fff; }
+    .format-btn.active { border-color: var(--dourado); background: rgba(216,176,74,0.10); color: #fff; box-shadow: 0 0 16px rgba(216,176,74,0.18); }
+    .format-icon { display: flex; align-items: center; justify-content: center; }
+    .shape-post    { width: 30px; height: 30px; border: 2.5px solid currentColor; border-radius: 6px; opacity: .9; }
+    .shape-stories { width: 19px; height: 30px; border: 2.5px solid currentColor; border-radius: 5px; opacity: .9; }
+    .shape-perfil  { width: 30px; height: 30px; border: 2.5px solid currentColor; border-radius: 50%; opacity: .9; }
+    .format-name { font-size: .72rem; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; }
+    .format-size { font-size: .62rem; opacity: .6; font-weight: 400; }
+
+    .preview-wrap { margin-bottom: 18px; display: flex; align-items: center; justify-content: center; }
+    .frame {
+      padding: 7px;
+      background: linear-gradient(45deg, var(--dourado-esc), var(--dourado), var(--dourado-esc));
+      box-shadow: 0 20px 44px rgba(0,0,0,0.5); transition: box-shadow .2s;
+    }
+    .frame.circle { border-radius: 50%; }
+    .frame.rect   { border-radius: 20px; }
+    body.adjusting .frame { box-shadow: 0 0 0 3px rgba(216,176,74,.55), 0 20px 44px rgba(0,0,0,0.5); }
+
+    .inner {
+      position: relative; width: 100%; height: 100%; overflow: hidden; background: #fff;
+      cursor: pointer; touch-action: pan-y; -webkit-tap-highlight-color: transparent;
+    }
+    .frame.circle .inner { border-radius: 50%; }
+    .frame.rect   .inner { border-radius: 13px; }
+    body.adjusting .inner { touch-action: none; cursor: grab; }
+    body.adjusting .inner:active { cursor: grabbing; }
+
+    #cv { width: 100%; height: 100%; display: block; }
+
+    .badge {
+      position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%);
+      background: rgba(10,22,38,.85); color: #fff; font-size: .66rem; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase; padding: 6px 12px; border-radius: 999px;
+      white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity .2s;
+    }
+    body.adjusting .badge { opacity: 1; }
+
+    .controls {
+      width: min(420px, 92vw); display: flex; flex-direction: column; gap: 14px;
+      background: rgba(255,255,255,0.05); padding: 20px; border-radius: 22px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .btn-upload {
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--azul); color: #fff; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+      border: none; border-radius: 12px; padding: 15px 18px; cursor: pointer;
+      box-shadow: 0 4px 15px rgba(28,58,94,0.4); transition: all .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-upload:hover { background: var(--azul-escuro); }
+    input[type="file"] { display: none; }
+
+    .zoom-row { display: flex; align-items: center; gap: 12px; }
+    .zoom-row label { font-size: .72rem; color: #92a6bd; font-weight: 700; text-transform: uppercase; min-width: 48px; }
+    input[type="range"] { flex: 1; accent-color: var(--dourado); cursor: pointer; height: 26px; touch-action: none; }
+
+    .toggle-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 2px; }
+    .toggle-row span { font-size: .76rem; color: #cdd8e5; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; }
+    .switch { position: relative; width: 52px; height: 30px; flex-shrink: 0; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; inset: 0; cursor: pointer; background: rgba(255,255,255,0.18); border-radius: 30px; transition: .2s; }
+    .slider::before { content: ""; position: absolute; height: 22px; width: 22px; left: 4px; top: 4px; background: #fff; border-radius: 50%; transition: .2s; }
+    .switch input:checked + .slider { background: var(--dourado); }
+    .switch input:checked + .slider::before { transform: translateX(22px); }
+
+    .btn-row { display: flex; gap: 10px; }
+    .btn-ghost {
+      background: transparent; border: 2px solid rgba(255,255,255,0.2); color: #fff;
+      height: 52px; border-radius: 12px; cursor: pointer; transition: all .2s;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase; -webkit-tap-highlight-color: transparent;
+    }
+    .btn-ghost:hover { background: rgba(255,255,255,0.08); border-color: var(--dourado); }
+    .btn-ghost.icon { width: 52px; flex-shrink: 0; }
+    .btn-ghost.grow { flex: 1; }
+    .btn-ghost.on { border-color: var(--dourado); background: rgba(216,176,74,0.16); color: #fff; }
+    .btn-ghost:disabled { opacity: .35; cursor: not-allowed; }
+
+    .hint { font-size: .78rem; color: #8ea0b4; text-align: center; line-height: 1.45; }
+    footer { margin-top: 28px; font-size: .72rem; color: #5b6d82; text-align: center; font-weight: 600; }
+
+    .actionbar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 40;
+      display: flex; justify-content: center;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(10,22,38,.98) 55%, rgba(10,22,38,.80));
+      border-top: 1px solid rgba(255,255,255,.08);
+    }
+    .btn-download {
+      width: 100%; max-width: 420px; display: flex; align-items: center; justify-content: center; gap: 10px;
+      background: var(--dourado); color: #2b2100; font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.18rem; font-weight: 900; letter-spacing: .06em; text-transform: uppercase;
+      border: none; border-radius: 12px; padding: 16px 20px; cursor: pointer;
+      box-shadow: 0 4px 18px rgba(216,176,74,0.28); transition: filter .2s, opacity .2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .btn-download:hover { filter: brightness(1.06); }
+    .btn-download:disabled { opacity: .35; cursor: not-allowed; box-shadow: none; }
+
+    .save-sheet {
+      position: fixed; inset: 0; z-index: 90; background: rgba(6,14,24,.95);
+      display: none; flex-direction: column; align-items: center; justify-content: center;
+      gap: 16px; padding: 24px 20px calc(24px + env(safe-area-inset-bottom)); overflow-y: auto;
+    }
+    .save-sheet.open { display: flex; }
+    .save-sheet img { max-width: min(86vw, 380px); max-height: 54vh; border-radius: 14px; box-shadow: 0 18px 44px rgba(0,0,0,.6); }
+    .save-sheet p { text-align: center; font-size: .95rem; color: #dbe4ee; line-height: 1.5; max-width: 340px; }
+    .save-sheet strong { color: var(--dourado); }
+    .save-sheet .sheet-actions { display: flex; gap: 10px; width: min(340px, 86vw); }
+    .sheet-btn {
+      flex: 1; text-align: center; text-decoration: none; padding: 14px 16px; border-radius: 12px;
+      cursor: pointer; font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem;
+      font-weight: 800; letter-spacing: .05em; text-transform: uppercase;
+      border: 2px solid rgba(255,255,255,.22); background: transparent; color: #fff;
+    }
+    .sheet-btn.primary { background: var(--dourado); color: #2b2100; border-color: var(--dourado); }
+
+    @media (max-height: 700px) {
+      .header { margin-bottom: 10px; }
+      .logo-img { width: min(170px, 46vw); }
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-img" id="logoBox"><img id="logoTopo" alt="Coronel Michello 20122" /></div>
+  <div class="logo-txt" id="logoTxt">
+    <div class="cargo">DEPUTADO DISTRITAL</div>
+    <div class="nome">CORONEL <b>MICHELLO</b></div>
+    <div class="num">20122</div>
+  </div>
+  <p class="header-sub">Filtro oficial de perfil</p>
+</div>
+
+<div class="aviso" id="aviso"></div>
+
+<div class="format-selector">
+  <span class="format-label">Selecione seu formato</span>
+  <div class="format-options">
+    <button class="format-btn active" data-format="perfil" type="button">
+      <div class="format-icon"><div class="shape-perfil"></div></div>
+      <div><div class="format-name">Perfil</div><div class="format-size">1000×1000</div></div>
+    </button>
+    <button class="format-btn" data-format="post" type="button">
+      <div class="format-icon"><div class="shape-post"></div></div>
+      <div><div class="format-name">Post</div><div class="format-size">1080×1080</div></div>
+    </button>
+    <button class="format-btn" data-format="stories" type="button">
+      <div class="format-icon"><div class="shape-stories"></div></div>
+      <div><div class="format-name">Stories</div><div class="format-size">1080×1920</div></div>
+    </button>
+  </div>
+</div>
+
+<div class="preview-wrap">
+  <div class="frame circle" id="frame">
+    <div class="inner" id="inner">
+      <canvas id="cv"></canvas>
+      <div class="badge" id="badge">Arraste para ajustar</div>
+    </div>
+  </div>
+</div>
+
+<div class="controls">
+  <label class="btn-upload" for="fi">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/>
+    </svg>
+    <span id="uploadTxt">Escolher minha foto</span>
+  </label>
+  <input type="file" id="fi" accept="image/*" />
+
+  <div class="zoom-row">
+    <label for="zoomR">Zoom</label>
+    <input type="range" id="zoomR" min="0.5" max="3" step="0.01" value="1" disabled />
+  </div>
+
+  <div class="toggle-row">
+    <span>Aparecer com o Coronel</span>
+    <label class="switch"><input type="checkbox" id="coronelChk" checked /><span class="slider"></span></label>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn-ghost grow" id="adjBtn" type="button" disabled>
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="5 9 2 12 5 15"/><polyline points="9 5 12 2 15 5"/>
+        <polyline points="15 19 12 22 9 19"/><polyline points="19 9 22 12 19 15"/>
+        <line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/>
+      </svg>
+      <span id="adjTxt">Mover foto</span>
+    </button>
+    <button class="btn-ghost icon" id="rotBtn" type="button" title="Girar 90°" disabled>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+        <path d="M23 4v6h-6"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/>
+      </svg>
+    </button>
+    <button class="btn-ghost icon" id="resetBtn" type="button" title="Centralizar" disabled>
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round">
+        <circle cx="12" cy="12" r="8"/><line x1="12" y1="7" x2="12" y2="17"/><line x1="7" y1="12" x2="17" y2="12"/>
+      </svg>
+    </button>
+  </div>
+
+  <p class="hint" id="hint">Toque no quadro acima para escolher sua foto.</p>
+</div>
+
+<footer>Coronel Michello · Deputado Distrital · 20122</footer>
+
+<div class="actionbar">
+  <button class="btn-download" id="dlBtn" type="button" disabled>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+    <span id="dlTxt">Baixar minha foto</span>
+  </button>
+</div>
+
+<div class="save-sheet" id="sheet">
+  <img id="sheetImg" alt="Sua foto com o filtro" />
+  <p>Pressione e segure a imagem acima e escolha <strong>“Salvar imagem”</strong> ou <strong>“Adicionar às Fotos”</strong>.</p>
+  <div class="sheet-actions">
+    <a class="sheet-btn primary" id="sheetDl" download>Baixar</a>
+    <button class="sheet-btn" id="sheetClose" type="button">Fechar</button>
+  </div>
+</div>
+
+<script>
+/* ===================================================================
+   1) ARQUIVOS DAS ARTES
+   Coloque os PNG (fundo transparente) na MESMA pasta deste index.html.
+   O código testa os nomes na ordem e usa o primeiro que existir.
+   Nome de arquivo diferencia maiúscula/minúscula no GitHub Pages.
+   =================================================================== */
+const ARQUIVOS = {
+  coronel: ['michello-recorte.png', 'michello.png', 'coronel.png'],
+  bloco:   ['michello-bloco.png', 'bloco.png', 'michello-nome.png', 'michello-logo.png', 'logo.png'],
+};
+
+/* ===================================================================
+   2) COMPOSIÇÃO — é aqui que se ajusta o encaixe da arte
+   bandTop    onde começa a faixa azul                  (fração da altura)
+   curva      curvatura da borda de cima: 0 = reta,
+              0.06 = leve, 0.14 = cúpula                (fração da altura)
+   blocoH     tamanho do bloco de texto dentro da faixa (fração da faixa)
+   blocoW     largura máxima do bloco                   (fração da largura)
+   blocoY     centro vertical do bloco dentro da faixa  (fração da faixa)
+              aumente para DESCER o bloco inteiro
+   corH       altura do recorte do Coronel              (fração da altura)
+   corCX      centro horizontal do Coronel              (fração da largura)
+   corBase    onde a base dele encosta                  (fração da altura)
+
+   >>> Para deixar o nome/número MAIOR ou MENOR mexa em blocoH e blocoW.
+       Quem manda é o menor dos dois: se aumentar blocoH e nada mudar,
+       aumente também blocoW (o teto é 1 = largura inteira da arte).
+   =================================================================== */
+
+/* CORTE DO PNG michello-bloco.png — frações da altura do arquivo que
+   são descartadas antes de desenhar. base: 0.22 recorta o "podemos"
+   do rodapé. Se ainda aparecer um pedaço dele, suba para 0.24 / 0.26;
+   se cortar o número 20122, baixe para 0.20 / 0.18. */
+const BLOCO_CORTE = { topo: 0.00, base: 0.22 };
+
+const LAYOUT = {
+  perfil:  { bandTop: 0.640, curva: 0, blocoH: 0.99, blocoW: 0.95, blocoY: 0.54, corH: 0.62, corCX: 0.750, corBase: 0.700 },
+  post:    { bandTop: 0.645, curva: 0, blocoH: 0.99, blocoW: 0.95, blocoY: 0.54, corH: 0.63, corCX: 0.755, corBase: 0.705 },
+  stories: { bandTop: 0.760, curva: 0, blocoH: 0.92, blocoW: 0.93, blocoY: 0.52, corH: 0.45, corCX: 0.755, corBase: 0.800 },
+};
+
+const FORMATS = {
+  perfil:  { cw: 1000, ch: 1000, label: 'filtro-perfil-coronel-michello',  circular: true  },
+  post:    { cw: 1080, ch: 1080, label: 'filtro-post-coronel-michello',    circular: false },
+  stories: { cw: 1080, ch: 1920, label: 'filtro-stories-coronel-michello', circular: false },
+};
+
+const AZUL   = '#1b3a68';   // azul da faixa
+const CNPJ   = 'CNPJ: 68.462.311/0001-06';
+const DOURADO = '#e0b93f';
+
+/* Sombreamento azul transparente — SÓ na parte de baixo da foto,
+   subindo da faixa para cima. O resto da foto fica intocado.
+   TINT_PE   força do azul colado na faixa   (0 = nada, 0.60 = forte)
+   TINT_ALT  até onde ele sobe               (fração da altura da arte) */
+const TINT_PE  = 0.45;
+const TINT_ALT = 0.22;
+const AZUL_RGB = '27, 58, 104';   // #1b3a68 em rgb, para usar com alfa
+
+/* ---- Estado ------------------------------------------------------- */
+let currentFormat = 'perfil';
+let userImg = null, comCoronel = true, adjust = false;
+let zoom = 1, rot = 0, ox = 0, oy = 0;
+
+const cv = document.getElementById('cv');
+let ctx = cv.getContext('2d');
+ctx.imageSmoothingEnabled = true;
+ctx.imageSmoothingQuality = 'high';
+const frame = document.getElementById('frame');
+const inner = document.getElementById('inner');
+const zoomR = document.getElementById('zoomR');
+const adjBtn = document.getElementById('adjBtn');
+const adjTxt = document.getElementById('adjTxt');
+const rotBtn = document.getElementById('rotBtn');
+const resetBtn = document.getElementById('resetBtn');
+const dlBtn = document.getElementById('dlBtn');
+const hint = document.getElementById('hint');
+const fi = document.getElementById('fi');
+const aviso = document.getElementById('aviso');
+
+/* ---- Carregamento das artes --------------------------------------- */
+function carregarLista(lista) {
+  const o = { img: new Image(), ok: false, src: null, tentados: lista.slice() };
+  let i = 0;
+  function tenta() {
+    if (i >= lista.length) { o.ok = false; reportar(); draw(); return; }
+    const src = lista[i++];
+    o.img.onload  = () => { o.ok = true; o.src = src; reportar(); draw(); };
+    o.img.onerror = tenta;
+    o.img.src = src;
+  }
+  tenta();
+  return o;
+}
+
+const CORONEL = carregarLista(ARQUIVOS.coronel);
+const BLOCO   = carregarLista(ARQUIVOS.bloco);
+
+function reportar() {
+  if (BLOCO.ok) {
+    document.getElementById('logoTopo').src = BLOCO.src;
+    document.getElementById('logoBox').classList.add('on');
+    document.getElementById('logoTxt').classList.add('off');
+  }
+  const faltando = [];
+  if (!CORONEL.ok) faltando.push('recorte do Coronel: <code>' + CORONEL.tentados.join('</code> ou <code>') + '</code>');
+  if (!BLOCO.ok)   faltando.push('bloco com nome e número: <code>' + BLOCO.tentados.join('</code> ou <code>') + '</code>');
+  if (faltando.length) {
+    aviso.innerHTML = '<b>Arquivo de arte não encontrado.</b> Coloque na mesma pasta do index.html — ' + faltando.join(' · ');
+    aviso.classList.add('on');
+  } else {
+    aviso.classList.remove('on');
+  }
+}
+
+const prop = o => o.img.naturalWidth / o.img.naturalHeight;
+const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
+
+/* ================= Preview ===================================== */
+function layoutPreview() {
+  const fmt = FORMATS[currentFormat];
+  const ratio = fmt.cw / fmt.ch;
+  const maxW = Math.min(400, window.innerWidth - 44);
+  const maxH = clamp(window.innerHeight * 0.42, 220, 440);
+  let pw, ph;
+  if (ratio >= 1) { pw = Math.min(maxW, maxH * ratio); ph = pw / ratio; }
+  else            { ph = Math.min(maxH, maxW / ratio); pw = ph * ratio; }
+  if (fmt.circular) { const s = Math.min(pw, ph); pw = ph = s; }
+  frame.classList.toggle('circle', fmt.circular);
+  frame.classList.toggle('rect', !fmt.circular);
+  frame.style.width  = Math.round(pw) + 'px';
+  frame.style.height = Math.round(ph) + 'px';
+}
+
+function setFormat(f) {
+  currentFormat = f;
+  const fmt = FORMATS[f];
+  cv.width = fmt.cw; cv.height = fmt.ch;
+  ctx.imageSmoothingEnabled = true;
+  ctx.imageSmoothingQuality = 'high';
+  zoom = 1; rot = 0; ox = 0; oy = 0; zoomR.value = 1;
+  layoutPreview(); draw();
+}
+
+/* ================= Arte ======================================== */
+
+/* Faixa azul. Com curva = 0 a borda de cima é uma linha reta. */
+function drawFaixa() {
+  const fmt = FORMATS[currentFormat], cfg = LAYOUT[currentFormat];
+  const CW = fmt.cw, CH = fmt.ch;
+  const top = CH * cfg.bandTop;
+  const c = (cfg.curva || 0) * CH;
+
+  ctx.fillStyle = AZUL;
+  if (c <= 0) {
+    ctx.fillRect(-2, top, CW + 4, CH - top + 2);
+    return;
+  }
+  ctx.beginPath();
+  ctx.moveTo(-2, top + c);
+  ctx.quadraticCurveTo(CW / 2, top - c, CW + 2, top + c);
+  ctx.lineTo(CW + 2, CH + 2);
+  ctx.lineTo(-2, CH + 2);
+  ctx.closePath();
+  ctx.fill();
+}
+
+function drawCoronel() {
+  if (!CORONEL.ok || !comCoronel) return;
+  const fmt = FORMATS[currentFormat], cfg = LAYOUT[currentFormat];
+  const CW = fmt.cw, CH = fmt.ch, s = CW / 1000;
+  const h = CH * cfg.corH;
+  const w = h * prop(CORONEL);
+  const x = CW * cfg.corCX - w / 2;
+  const y = CH * cfg.corBase - h;
+  ctx.save();
+  ctx.shadowColor = 'rgba(4,14,28,0.42)';
+  ctx.shadowBlur = 34 * s;
+  ctx.shadowOffsetX = -12 * s;
+  ctx.shadowOffsetY = 6 * s;
+  ctx.drawImage(CORONEL.img, x, y, w, h);
+  ctx.restore();
+}
+
+/* Degradê azul que funde a foto com a faixa. */
+function drawScrim() {
+  const fmt = FORMATS[currentFormat], cfg = LAYOUT[currentFormat];
+  const CW = fmt.cw, CH = fmt.ch;
+  const fim = CH * cfg.bandTop;
+  const ini = fim - CH * TINT_ALT;
+  const g = ctx.createLinearGradient(0, ini, 0, fim);
+  g.addColorStop(0.00, 'rgba(' + AZUL_RGB + ',0)');
+  g.addColorStop(0.55, 'rgba(' + AZUL_RGB + ',' + (TINT_PE * 0.42) + ')');
+  g.addColorStop(1.00, 'rgba(' + AZUL_RGB + ',' + TINT_PE + ')');
+  ctx.fillStyle = g;
+  ctx.fillRect(0, ini, CW, fim - ini);
+}
+
+/* Mede qual tamanho de fonte faz o texto ocupar a largura alvo. */
+function tamanhoPara(txt, alvoW, maker, maxSize) {
+  ctx.font = maker(100);
+  const w = ctx.measureText(txt).width || 1;
+  return Math.min(maxSize, 100 * alvoW / w);
+}
+
+/* Bloco de nome e número: usa o PNG oficial se existir; se não,
+   desenha um equivalente para a arte nunca ficar vazia. */
+function drawBloco() {
+  const fmt = FORMATS[currentFormat], cfg = LAYOUT[currentFormat];
+  const CW = fmt.cw, CH = fmt.ch;
+  const top = CH * cfg.bandTop;
+  const A = CH - top;                        // altura útil da faixa
+  const cy = top + A * cfg.blocoY;
+  const maxW = CW * (cfg.blocoW || 0.95);
+
+  if (BLOCO.ok) {
+    const iw = BLOCO.img.naturalWidth;
+    const ih = BLOCO.img.naturalHeight;
+    const sy = ih * BLOCO_CORTE.topo;                              // início do recorte
+    const sh = ih * (1 - BLOCO_CORTE.topo - BLOCO_CORTE.base);     // altura do recorte
+    let bh = A * cfg.blocoH;
+    let bw = bh * (iw / sh);
+    if (bw > maxW) { const k = maxW / bw; bw *= k; bh *= k; }
+    ctx.save();
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(BLOCO.img, 0, sy, iw, sh, (CW - bw) / 2, cy - bh / 2, bw, bh);
+    ctx.restore();
+    return;
+  }
+
+  const H = A * cfg.blocoH;
+  const y0 = cy - H / 2;
+  const cond = (s, it) => (it ? 'italic ' : '') + '900 ' + s + "px 'Barlow Condensed', sans-serif";
+
+  ctx.save();
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+
+  // cargo
+  ctx.letterSpacing = (maxW * 0.010) + 'px';
+  ctx.fillStyle = DOURADO;
+  ctx.font = '700 ' + tamanhoPara('DEPUTADO DISTRITAL', maxW * 0.52, s => '700 ' + s + "px 'Barlow Condensed', sans-serif", H * 0.115)
+             + "px 'Barlow Condensed', sans-serif";
+  ctx.fillText('DEPUTADO DISTRITAL', CW / 2, y0 + H * 0.10);
+  ctx.letterSpacing = '0px';
+
+  // nome — as duas linhas usam o mesmo corpo, medido pela palavra mais larga
+  const sNome = Math.min(
+    tamanhoPara('MICHELLO', maxW * 0.99, s => cond(s, true), H * 0.32),
+    tamanhoPara('CORONEL',  maxW * 1.00, s => cond(s, true), H * 0.32)
+  );
+  ctx.font = cond(sNome, true);
+  ctx.fillStyle = '#ffffff';
+  ctx.fillText('CORONEL', CW / 2, y0 + H * 0.315);
+  ctx.fillStyle = DOURADO;
+  ctx.fillText('MICHELLO', CW / 2, y0 + H * 0.560);
+
+  // filete
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(CW / 2 - maxW * 0.33, y0 + H * 0.700, maxW * 0.66, Math.max(2, H * 0.018));
+
+  // número
+  ctx.font = cond(tamanhoPara('20122', maxW * 0.92, s => cond(s, true), H * 0.36), true);
+  ctx.fillText('20122', CW / 2, y0 + H * 0.880);
+  ctx.restore();
+}
+
+function drawCnpj() {
+  const fmt = FORMATS[currentFormat], cfg = LAYOUT[currentFormat];
+  const CW = fmt.cw, CH = fmt.ch, s = CW / 1000;
+  ctx.save();
+  ctx.translate(CW * 0.055, CH * cfg.bandTop - CH * 0.05);
+  ctx.rotate(-Math.PI / 2);
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.font = '700 ' + (21 * s) + "px 'Barlow', sans-serif";
+  ctx.fillStyle = 'rgba(255,255,255,0.90)';
+  ctx.shadowColor = 'rgba(0,0,0,0.55)';
+  ctx.shadowBlur = 8 * s;
+  ctx.fillText(CNPJ, 0, 0);
+  ctx.restore();
+}
+
+function drawConvite() {
+  const fmt = FORMATS[currentFormat], cfg = LAYOUT[currentFormat];
+  const CW = fmt.cw, CH = fmt.ch, s = CW / 1000;
+  const cx = CW * 0.30, cy = CH * cfg.bandTop * 0.46;
+  ctx.save();
+  ctx.strokeStyle = '#b9c3cf';
+  ctx.lineWidth = 5 * s;
+  ctx.setLineDash([14 * s, 12 * s]);
+  ctx.beginPath(); ctx.arc(cx, cy, 62 * s, 0, Math.PI * 2); ctx.stroke();
+  ctx.setLineDash([]); ctx.lineCap = 'round';
+  ctx.beginPath();
+  ctx.moveTo(cx - 26 * s, cy); ctx.lineTo(cx + 26 * s, cy);
+  ctx.moveTo(cx, cy - 26 * s); ctx.lineTo(cx, cy + 26 * s);
+  ctx.stroke();
+  ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+  ctx.fillStyle = '#8593a3';
+  ctx.font = '900 ' + (44 * s) + "px 'Barlow Condensed', sans-serif";
+  ctx.fillText('TOQUE AQUI', cx, cy + 118 * s);
+  ctx.font = '600 ' + (27 * s) + "px 'Barlow', sans-serif";
+  ctx.fillText('para escolher sua foto', cx, cy + 158 * s);
+  ctx.restore();
+}
+
+function draw() {
+  const fmt = FORMATS[currentFormat];
+  const CW = fmt.cw, CH = fmt.ch;
+  ctx.clearRect(0, 0, CW, CH);
+
+  if (userImg) {
+    ctx.save();
+    ctx.translate(CW / 2 + ox, CH / 2 + oy);
+    ctx.rotate(rot * Math.PI / 180);
+    ctx.scale(zoom, zoom);
+    const iw = userImg.naturalWidth, ih = userImg.naturalHeight;
+    const base = Math.max(CW / iw, CH / ih);
+    ctx.drawImage(userImg, -iw * base / 2, -ih * base / 2, iw * base, ih * base);
+    ctx.restore();
+  } else {
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, CW, CH);
+    drawConvite();
+  }
+
+  drawCoronel();   // entra atrás da faixa, que cobre os ombros
+  drawScrim();
+  drawFaixa();
+  drawBloco();
+  drawCnpj();
+}
+
+if (document.fonts && document.fonts.ready) document.fonts.ready.then(draw);
+
+/* ================= Modo ajuste ================================= */
+function setAdjust(on) {
+  adjust = on && !!userImg;
+  document.body.classList.toggle('adjusting', adjust);
+  adjBtn.classList.toggle('on', adjust);
+  adjTxt.textContent = adjust ? 'Concluir' : 'Mover foto';
+  hint.textContent = adjust
+    ? 'Arraste a foto dentro do quadro. Toque em “Concluir” para voltar a rolar a página.'
+    : 'Use “Mover foto” para reposicionar. Sem isso, a página rola normalmente.';
+}
+adjBtn.addEventListener('click', () => setAdjust(!adjust));
+
+/* ================= Gestos ====================================== */
+const pointers = new Map();
+let gesture = null, moved = false, rectW = 1;
+
+function refreshGesture() {
+  const pts = [...pointers.values()];
+  rectW = inner.getBoundingClientRect().width || 1;
+  if (pts.length === 1) gesture = { mode: 'pan', x: pts[0].x, y: pts[0].y, ox, oy };
+  else if (pts.length >= 2) {
+    const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
+    gesture = { mode: 'pinch', dist: d, zoom };
+  } else gesture = null;
+}
+
+inner.addEventListener('pointerdown', e => {
+  if (!userImg || !adjust) return;
+  try { inner.setPointerCapture(e.pointerId); } catch (err) {}
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  moved = false; refreshGesture();
+});
+
+inner.addEventListener('pointermove', e => {
+  if (!pointers.has(e.pointerId) || !gesture) return;
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  const pts = [...pointers.values()];
+  if (gesture.mode === 'pan' && pts.length === 1) {
+    const k = cv.width / rectW;
+    const dx = (pts[0].x - gesture.x) * k, dy = (pts[0].y - gesture.y) * k;
+    if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+    ox = gesture.ox + dx; oy = gesture.oy + dy; draw();
+  } else if (gesture.mode === 'pinch' && pts.length >= 2) {
+    const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y) || 1;
+    zoom = clamp(gesture.zoom * d / gesture.dist, 0.5, 3);
+    zoomR.value = zoom; moved = true; draw();
+  }
+  e.preventDefault();
+});
+
+function endPointer(e) {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.delete(e.pointerId); refreshGesture();
+}
+inner.addEventListener('pointerup', endPointer);
+inner.addEventListener('pointercancel', endPointer);
+inner.addEventListener('pointerleave', endPointer);
+
+inner.addEventListener('click', () => {
+  if (moved) { moved = false; return; }
+  if (!userImg || !adjust) fi.click();
+});
+
+/* ================= Controles =================================== */
+document.querySelectorAll('.format-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.format-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    setFormat(btn.dataset.format);
+  });
+});
+
+document.getElementById('coronelChk').addEventListener('change', e => {
+  comCoronel = e.target.checked; draw();
+});
+
+fi.addEventListener('change', e => {
+  const f = e.target.files[0];
+  if (!f) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    const img = new Image();
+    img.onload = () => {
+      userImg = img;
+      zoom = 1; rot = 0; ox = 0; oy = 0; zoomR.value = 1;
+      [zoomR, adjBtn, rotBtn, resetBtn, dlBtn].forEach(b => b.disabled = false);
+      document.getElementById('uploadTxt').textContent = 'Trocar minha foto';
+      setAdjust(false); draw();
+    };
+    img.onerror = () => alert('Não consegui abrir essa imagem. Tente outra foto da galeria.');
+    img.src = ev.target.result;
+  };
+  reader.onerror = () => alert('Não consegui ler o arquivo. Tente outra foto.');
+  reader.readAsDataURL(f);
+  e.target.value = '';
+});
+
+zoomR.addEventListener('input', e => { zoom = parseFloat(e.target.value); draw(); });
+rotBtn.addEventListener('click', () => { rot = (rot + 90) % 360; draw(); });
+resetBtn.addEventListener('click', () => { zoom = 1; rot = 0; ox = 0; oy = 0; zoomR.value = 1; draw(); });
+
+let resizeTimer;
+window.addEventListener('resize', () => { clearTimeout(resizeTimer); resizeTimer = setTimeout(layoutPreview, 120); });
+window.addEventListener('orientationchange', () => setTimeout(layoutPreview, 250));
+
+/* ================= Download ==================================== */
+/* ESCALA_EXPORT multiplica a resolução do arquivo baixado.
+   2 = perfil sai em 2000×2000, post 2160×2160, stories 2160×3840.
+   Se algum celular antigo reclamar de memória, volte para 1. */
+const ESCALA_EXPORT = 2;
+
+function renderFinal() {
+  const fmt = FORMATS[currentFormat];
+  const K = ESCALA_EXPORT;
+  const t = document.createElement('canvas');
+  t.width = fmt.cw * K; t.height = fmt.ch * K;
+  const c = t.getContext('2d');
+  c.imageSmoothingEnabled = true;
+  c.imageSmoothingQuality = 'high';
+  c.save();
+  c.scale(K, K);
+  if (fmt.circular) {
+    c.beginPath(); c.arc(fmt.cw / 2, fmt.ch / 2, fmt.cw / 2, 0, Math.PI * 2); c.closePath(); c.clip();
+  }
+  const orig = ctx;
+  ctx = c;
+  try { draw(); } finally { ctx = orig; }
+  c.restore();
+  draw();                    // redesenha o preview na tela
+  return t.toDataURL('image/png');
+}
+
+function dataURLtoBlob(dataURL) {
+  const parts = dataURL.split(',');
+  const mime = parts[0].match(/:(.*?);/)[1];
+  const bin = atob(parts[1]);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  return new Blob([arr], { type: mime });
+}
+
+const UA = navigator.userAgent || '';
+const isInApp = /Instagram|FBAN|FBAV|FB_IAB|FBIOS|Line\/|Twitter|TikTok|MicroMessenger|SnapChat/i.test(UA);
+const isIOS = /iPad|iPhone|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+
+const sheet = document.getElementById('sheet');
+const sheetImg = document.getElementById('sheetImg');
+const sheetDl = document.getElementById('sheetDl');
+
+function abrirSheet(dataURL, fileName) {
+  sheetImg.src = dataURL;
+  sheetDl.href = dataURL;
+  sheetDl.setAttribute('download', fileName);
+  sheet.classList.add('open');
+}
+document.getElementById('sheetClose').addEventListener('click', () => {
+  sheet.classList.remove('open'); sheetImg.src = '';
+});
+
+function baixarDireto(blob, dataURL, fileName) {
+  try {
+    const a = document.createElement('a');
+    a.download = fileName;
+    a.href = URL.createObjectURL(blob);
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 8000);
+  } catch (err) { abrirSheet(dataURL, fileName); }
+}
+
+dlBtn.addEventListener('click', () => {
+  if (!userImg) return;
+  setAdjust(false);
+  const fileName = FORMATS[currentFormat].label + '.png';
+  let dataURL, blob, file;
+  try {
+    dataURL = renderFinal();
+    blob = dataURLtoBlob(dataURL);
+    file = new File([blob], fileName, { type: 'image/png' });
+  } catch (err) {
+    alert('Não consegui gerar a imagem. Recarregue a página e tente de novo.');
+    return;
+  }
+  let podeCompartilhar = false;
+  try {
+    podeCompartilhar = !!(navigator.canShare && navigator.canShare({ files: [file] }) && navigator.share);
+  } catch (err) { podeCompartilhar = false; }
+
+  if (podeCompartilhar) {
+    navigator.share({ files: [file], title: 'Coronel Michello 20122' }).catch(err => {
+      if (err && err.name === 'AbortError') return;
+      if (isInApp || isIOS) abrirSheet(dataURL, fileName);
+      else baixarDireto(blob, dataURL, fileName);
+    });
+    return;
+  }
+  if (isInApp || isIOS) { abrirSheet(dataURL, fileName); return; }
+  baixarDireto(blob, dataURL, fileName);
+});
+
+/* ================= Início ====================================== */
+setFormat('perfil');
+setAdjust(false);
+hint.textContent = 'Toque no quadro acima para escolher sua foto.';
+</script>
+</body>
+</html>
