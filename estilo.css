@@ -985,3 +985,39 @@ main section[id]{scroll-margin-top:5.4rem}
 @media (max-width:520px){
   .hero{padding-top:8rem}
 }
+
+/* ============================================================
+   PAINEL DE REGIÃO · o que já foi feito
+   ============================================================ */
+.painel__selo--neutro{background:rgba(255,255,255,.1);border-color:var(--linha);color:#B4C8E2}
+
+.painel__feito{
+  margin-top:1.3rem;padding:1rem 1.2rem;border-radius:12px;
+  background:rgba(47,191,113,.1);border:1px solid rgba(47,191,113,.35);
+}
+.painel__feito p{color:#D6E6DC;font-size:.95rem;margin:0}
+.painel__rot--verde{color:#5FE39B !important}
+.painel__rot--verde::before{content:"✓ ";font-weight:700}
+.painel__fonte-link{
+  display:inline-block;margin-top:.7rem;
+  font-family:var(--util);text-transform:uppercase;letter-spacing:.12em;font-weight:700;
+  font-size:.74rem;color:#5FE39B;text-decoration:none;
+  border-bottom:1px solid rgba(47,191,113,.4);
+}
+.painel__fonte-link:hover{color:#8DF0BB;border-color:#8DF0BB}
+.painel__feito--sem{background:rgba(255,255,255,.06);border-color:var(--linha)}
+.painel__feito--sem p{color:#B4C8E2}
+
+.painel__ampliar{
+  margin-top:1.4rem;padding-top:1.2rem;border-top:1px solid var(--linha);
+  display:grid;grid-template-columns:auto minmax(0,1fr);gap:.9rem;align-items:start;
+}
+.painel__35{
+  font-family:var(--display);font-style:italic;font-weight:900;font-stretch:110%;
+  font-size:2.6rem;line-height:.85;color:var(--ouro);letter-spacing:-.04em;
+}
+.painel__ampliar p{color:#B4C8E2;font-size:.9rem;margin:0;line-height:1.45}
+
+@media (max-width:960px){
+  .painel__ampliar{margin-top:1.2rem}
+}

@@ -198,34 +198,63 @@ window.DADOS = {
      que ele comandou (7º BPM ou 3º BPM).
      ---------------------------------------------------------- */
   regioes: [
-    { nome:"Asa Norte", comandou:true, batalhao:"3º BPM",
+    { nome:"Asa Norte", comandou:true, batalhao:"3º BPM", desde:"julho de 2025",
       frase:"Eu comandei o batalhão daqui.",
-      texto:"Ocupações irregulares de moradores de rua, furtos e roubos em áreas mal iluminadas, manuseio inadequado do lixo e espaços de convivência degradados. O comércio local não pode ficar desamparado." },
+      texto:"Ocupações irregulares de moradores de rua, furtos e roubos em áreas mal iluminadas, manuseio inadequado do lixo e espaços de convivência degradados. O comércio local não pode ficar desamparado.",
+      feito:"Assumi o comando do 3º Batalhão em julho de 2025, responsável pela Asa Norte, Noroeste e SAAN. Foi também aqui que, de folga em junho de 2024, entrei num prédio em chamas e ajudei a retirar uma senhora de 91 anos.",
+      fonte:{ texto:"Portal da PMDF", url:"https://portal.pm.df.gov.br/?post_type=noticias-institucion&p=15748" } },
+
     { nome:"Asa Sul", comandou:false,
       frase:"A entrequadra é sua.",
-      texto:"Nove da noite não deveria ser tarde demais para caminhar na própria quadra. Pilotis livres, comércio local vivo e gente caminhando de dia e de noite sem medo." },
-    { nome:"Cruzeiro", comandou:true, batalhao:"7º BPM",
+      texto:"Nove da noite não deveria ser tarde demais para caminhar na própria quadra. Pilotis livres, comércio local vivo e gente caminhando de dia e de noite sem medo.",
+      feito:null },
+
+    { nome:"Cruzeiro", comandou:true, batalhao:"7º BPM", desde:"agosto de 2024",
       frase:"Comunidade de verdade merece proteção.",
-      texto:"Do HFA ao Cruzeiro Center, o Cruzeiro é comunidade de verdade. O que falta não é promessa: é segurança nos espaços comuns e comerciais." },
-    { nome:"Sudoeste", comandou:true, batalhao:"7º BPM",
+      texto:"Do HFA ao Cruzeiro Center, o Cruzeiro é comunidade de verdade. O que falta não é promessa: é segurança nos espaços comuns e comerciais.",
+      feito:"Comandei o 7º Batalhão, responsável por Cruzeiro, Sudoeste e Octogonal, de agosto de 2024 a julho de 2025. Quando saí, moradores e comerciantes se mobilizaram publicamente pedindo que eu ficasse.",
+      fonte:{ texto:"Jornal de Brasília", url:"https://jornaldebrasilia.com.br/brasilia/comunidade-reage-contra-saida-de-tenente-coronel-do-comando-do-7o-batalhao-da-pmdf/" } },
+
+    { nome:"Sudoeste", comandou:true, batalhao:"7º BPM", desde:"agosto de 2024",
       frase:"Quem volta tarde conhece essa rotina.",
-      texto:"Procurar vaga, caminhar mais e ainda se preocupar com a segurança até chegar em casa. Segurança também é fazer esse trajeto sem medo." },
-    { nome:"Octogonal", comandou:true, batalhao:"7º BPM",
+      texto:"Procurar vaga, caminhar mais e ainda se preocupar com a segurança até chegar em casa. Segurança também é fazer esse trajeto sem medo.",
+      feito:"Respondi pela segurança do Sudoeste à frente do 7º BPM. A saída do comando virou notícia local justamente porque a comunidade não queria a troca: o movimento ganhou nome próprio, \"Fica, Michello\".",
+      fonte:{ texto:"Radar Sudoeste", url:"https://radarsudoeste.com.br/fica-michello-comunidade-lamenta-saida-de-comandante-do-7o-bpm/" } },
+
+    { nome:"Octogonal", comandou:true, batalhao:"7º BPM", desde:"agosto de 2024",
       frase:"A segurança não pode terminar no condomínio.",
-      texto:"Dentro do Octogonal, a vizinhança se conhece e se protege. Do lado de fora, é dever do poder público cuidar, prevenir e estar presente." },
-    { nome:"Noroeste", comandou:true, batalhao:"3º BPM",
+      texto:"Dentro do Octogonal, a vizinhança se conhece e se protege. Do lado de fora, é dever do poder público cuidar, prevenir e estar presente.",
+      feito:"A Octogonal esteve sob o 7º Batalhão durante todo o meu comando, de agosto de 2024 a julho de 2025, ao lado do Cruzeiro e do Sudoeste.",
+      fonte:{ texto:"Jornal de Brasília", url:"https://jornaldebrasilia.com.br/brasilia/major-michello-assume-comando-do-7o-bpm/" } },
+
+    { nome:"Noroeste", comandou:true, batalhao:"3º BPM", desde:"julho de 2025",
       frase:"Devolver o Burle Marx às famílias.",
-      texto:"Famílias e crianças ocupando o parque, espaço público cuidado e presença permanente do poder público. Espaço público cuidado é espaço público mais seguro." },
+      texto:"Famílias e crianças ocupando o parque, espaço público cuidado e presença permanente do poder público. Espaço público cuidado é espaço público mais seguro.",
+      feito:"O Noroeste está sob o 3º Batalhão, que comando desde julho de 2025. O levantamento local do ano registrou a queda das ocorrências no bairro, que quase zerou os registros em 2025.",
+      fonte:{ texto:"DF Noroeste", url:"https://dfnoroeste.com.br/bairro-mais-seguro-noroeste-quase-zera-ocorrencias-em-2025/" } },
+
     { nome:"Lago Norte", comandou:false,
       frase:"Do Taquari à Península, a mesma regra.",
-      texto:"Ocupação com critério, drenagem que aguente a chuva, iluminação nas vias e presença na orla. Ordem também é prevenção." },
+      texto:"Ocupação com critério, drenagem que aguente a chuva, iluminação nas vias e presença na orla. Ordem também é prevenção.",
+      feito:null },
+
     { nome:"Lago Sul", comandou:false,
       frase:"Sua casa é sua fortaleza. A rua também precisa ser.",
-      texto:"Comércio seguro à noite, calçadas cuidadas, iluminação e presença para quem vive e circula pela região." },
+      texto:"Comércio seguro à noite, calçadas cuidadas, iluminação e presença para quem vive e circula pela região.",
+      feito:null },
+
     { nome:"Vila Planalto", comandou:false,
       frase:"História não combina com medo.",
-      texto:"Lugar histórico e acolhedor merece vida em paz, sem o medo que a ocupação irregular de moradores em situação de rua tem trazido para quem vive aqui." }
+      texto:"Lugar histórico e acolhedor merece vida em paz, sem o medo que a ocupação irregular de moradores em situação de rua tem trazido para quem vive aqui.",
+      feito:null }
   ],
+
+  /* texto usado quando a região não esteve sob o comando dele */
+  semComando: "Não comandei o batalhão daqui, e não vou dizer que comandei. O que eu trago é o método que funcionou nas seis regiões onde comandei: presença fixa, dado aberto por quadra e resposta com prazo.",
+
+  /* a promessa de escala, exibida em toda região */
+  ampliar: "Seis regiões foram a minha responsabilidade direta como comandante. O Distrito Federal tem 35. É esse método que eu quero levar para todas elas na Câmara Legislativa.",
+
 
   /* dado do 2º Censo Distrital da População em Situação de Rua */
   dadoRua: {

@@ -95,20 +95,40 @@
 
     function pintar(i) {
       var r = lista[i];
+      var temFeito = !!r.feito;
+
+      var blocoFeito = temFeito
+        ? '<div class="painel__feito">' +
+            '<p class="painel__rot painel__rot--verde">O que eu já fiz aqui</p>' +
+            "<p>" + r.feito + "</p>" +
+            (r.fonte ? '<a class="painel__fonte-link" href="' + r.fonte.url +
+                       '" target="_blank" rel="noopener">Conferir em ' + r.fonte.texto + " ↗</a>" : "") +
+          "</div>"
+        : '<div class="painel__feito painel__feito--sem">' +
+            '<p class="painel__rot">Aqui eu não comandei</p>' +
+            "<p>" + (D.semComando || "") + "</p>" +
+          "</div>";
+
       painel.innerHTML =
         '<div class="painel__esq">' +
           (r.comandou
-            ? '<span class="painel__selo">★ Ele comandou o ' + r.batalhao + ' daqui</span>'
-            : '<span class="painel__selo">Região vizinha ao comando dele</span>') +
+            ? '<span class="painel__selo">★ Comandei o ' + r.batalhao + " daqui, desde " + r.desde + "</span>"
+            : '<span class="painel__selo painel__selo--neutro">Região vizinha ao meu comando</span>') +
           '<p class="painel__nome">' + r.nome + "</p>" +
           '<p class="painel__frase">' + r.frase + "</p>" +
           '<p class="painel__txt">' + r.texto + "</p>" +
+          blocoFeito +
         "</div>" +
         '<div class="painel__dir">' +
           '<p class="painel__rot">O problema em número</p>' +
           '<p class="painel__dado"><b>' + (dado.destaque || "") + "</b> " + (dado.texto || "") + "</p>" +
           '<p class="painel__fonte">' + (dado.fonte || "") + "</p>" +
+          '<div class="painel__ampliar">' +
+            '<span class="painel__35">35</span>' +
+            "<p>" + (D.ampliar || "") + "</p>" +
+          "</div>" +
         "</div>";
+
       painel.classList.remove("trocando");
       void painel.offsetWidth;
       painel.classList.add("trocando");
