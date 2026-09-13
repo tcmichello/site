@@ -78,6 +78,23 @@ window.DADOS = {
 
 
   /* ----------------------------------------------------------
+     REGIÕES ADMINISTRATIVAS DO DF
+     As 35 RAs. `comando: true` marca as que estiveram sob os
+     batalhões que ele comandou (7º BPM e 3º BPM).
+     ---------------------------------------------------------- */
+  ras: [
+    {n:"Plano Piloto", comando:true}, {n:"Gama"}, {n:"Taguatinga"}, {n:"Brazlândia"},
+    {n:"Sobradinho"}, {n:"Planaltina"}, {n:"Paranoá"}, {n:"Núcleo Bandeirante"},
+    {n:"Ceilândia"}, {n:"Guará"}, {n:"Cruzeiro", comando:true}, {n:"Samambaia"},
+    {n:"Santa Maria"}, {n:"São Sebastião"}, {n:"Recanto das Emas"}, {n:"Lago Sul"},
+    {n:"Riacho Fundo"}, {n:"Lago Norte"}, {n:"Candangolândia"}, {n:"Águas Claras"},
+    {n:"Riacho Fundo II"}, {n:"Sudoeste/Octogonal", comando:true}, {n:"Varjão"},
+    {n:"Park Way"}, {n:"SCIA/Estrutural"}, {n:"Sobradinho II"}, {n:"Jardim Botânico"},
+    {n:"Itapoã"}, {n:"SIA"}, {n:"Vicente Pires"}, {n:"Fercal"},
+    {n:"Sol Nascente/Pôr do Sol"}, {n:"Arniqueira"}, {n:"Arapoanga"}, {n:"Água Quente"}
+  ],
+
+  /* ----------------------------------------------------------
      PROPOSTAS
      Conteúdo integral dos 5 folhetos oficiais "Ordem sem medo".
      Cada compromisso tem diagnóstico, frase de campanha e as

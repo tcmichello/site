@@ -37,10 +37,11 @@
      NAVEGAÇÃO
      ========================================================== */
   (function nav() {
-    var barra = $("#nav"), topo = $("#btnTopo");
+    var barra = $("#nav"), topo = $("#btnTopo"), tb = document.querySelector(".topbar");
     function aoRolar() {
       var y = window.scrollY;
       barra.classList.toggle("fixo", y > 80);
+      if (tb) tb.classList.toggle("oculta", y > 80);   // some ao rolar, senão o menu passa por cima
       if (topo) topo.hidden = y < 700;
     }
     window.addEventListener("scroll", aoRolar, { passive: true });
@@ -156,6 +157,59 @@
     });
 
     pintar(0);
+  })();
+
+  /* ==========================================================
+     MAPA DE EXPANSÃO 3 -> 35
+     ========================================================== */
+  (function mapa() {
+    var grade = $("#mapaGrade"), btn = $("#mapaBtn");
+    if (!grade) return;
+    var ras = D.ras || [];
+    if (!ras.length) return;
+
+    grade.innerHTML = ras.map(function (r) {
+      return '<span class="ra' + (r.comando ? " ra--on" : "") + '" title="' + r.n + '">' +
+             '<span class="ra__ponto" aria-hidden="true"></span>' +
+             '<span class="ra__nome">' + r.n + "</span></span>";
+    }).join("");
+
+    var conta = $("#mapaConta"), feitos = $("#mapaFeitos");
+    var base = ras.filter(function (r) { return r.comando; }).length;
+    var expandido = false;
+
+    function contarAte(alvo) {
+      var ini = null, de = base, dur = 1100;
+      function passo(t) {
+        if (!ini) ini = t;
+        var p = Math.min((t - ini) / dur, 1);
+        conta.textContent = Math.round(de + (alvo - de) * (1 - Math.pow(1 - p, 3)));
+        if (p < 1) requestAnimationFrame(passo);
+      }
+      requestAnimationFrame(passo);
+    }
+
+    btn.addEventListener("click", function () {
+      expandido = !expandido;
+      var itens = $$(".ra", grade);
+
+      if (expandido) {
+        itens.forEach(function (el, i) {
+          if (el.classList.contains("ra--on")) return;
+          setTimeout(function () { el.classList.add("ra--aceso"); }, reduzido ? 0 : i * 26);
+        });
+        if (reduzido) conta.textContent = ras.length; else contarAte(ras.length);
+        btn.textContent = "Voltar ao meu comando";
+        grade.classList.add("expandida");
+        feitos.hidden = false;
+      } else {
+        itens.forEach(function (el) { el.classList.remove("ra--aceso"); });
+        conta.textContent = base;
+        btn.textContent = "Expandir para as 35";
+        grade.classList.remove("expandida");
+        feitos.hidden = true;
+      }
+    });
   })();
 
   /* ==========================================================

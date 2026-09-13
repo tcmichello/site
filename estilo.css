@@ -687,9 +687,9 @@ main section[id]{scroll-margin-top:5.4rem}
 .topbar__zap:hover{color:#25D366 !important}
 
 /* a navegação principal desce para caber a barra */
-.nav{top:38px}
+.nav{top:38px;transition:top .3s ease,background .3s,backdrop-filter .3s}
 .nav.fixo{top:0}
-.topbar.oculta{transform:translateY(-100%)}
+.topbar.oculta{transform:translateY(-100%);pointer-events:none;opacity:0}
 
 @media (max-width:1120px){
   .topbar{height:34px}
@@ -1044,4 +1044,78 @@ main section[id]{scroll-margin-top:5.4rem}
 @media (max-width:640px){
   .expandir{grid-template-columns:1fr;gap:.5rem;padding:1.3rem 1.2rem;text-align:left}
   .expandir__num{font-size:3rem}
+}
+
+/* ============================================================
+   MAPA DE EXPANSÃO · 3 para 35
+   ============================================================ */
+.mapa{
+  margin-top:clamp(2.2rem,5vw,3.4rem);
+  background:linear-gradient(140deg,var(--azul-800),var(--azul-900));
+  border:1px solid rgba(227,178,60,.35);border-radius:var(--rg);
+  padding:clamp(1.5rem,3.5vw,2.4rem);
+}
+.mapa__topo{display:flex;flex-wrap:wrap;gap:1.4rem;align-items:flex-end;justify-content:space-between;margin-bottom:1.6rem}
+.mapa .eyebrow--escuro{color:var(--ouro)}
+.mapa__tit{
+  font-family:var(--display);font-weight:900;font-stretch:106%;
+  font-size:clamp(1.3rem,3vw,2rem);color:#fff;line-height:1.08;letter-spacing:-.025em;
+}
+.mapa__tit em{font-style:italic;color:var(--ouro)}
+.mapa__placar{text-align:right;line-height:1}
+.mapa__conta{
+  font-family:var(--display);font-style:italic;font-weight:900;font-stretch:110%;
+  font-size:clamp(3rem,8vw,4.6rem);color:var(--ouro-claro);letter-spacing:-.04em;display:block;
+}
+.mapa__de{display:block;color:#9DB5D2;font-size:.86rem;margin-top:.25rem}
+.mapa__de b{color:#fff}
+
+.mapa__grade{
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(146px,1fr));gap:.45rem;
+  padding:1.1rem;border-radius:14px;background:rgba(0,0,0,.22);
+}
+.ra{
+  display:flex;align-items:center;gap:.5rem;
+  padding:.42rem .6rem;border-radius:8px;
+  background:rgba(255,255,255,.03);
+  transition:background .3s,transform .3s;
+}
+.ra__ponto{
+  width:8px;height:8px;border-radius:50%;flex:0 0 auto;
+  background:#33507A;transition:background .35s,box-shadow .35s,transform .35s;
+}
+.ra__nome{
+  font-family:var(--util);text-transform:uppercase;letter-spacing:.06em;
+  font-size:.74rem;color:#6E88AC;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:color .35s;
+}
+.ra--on .ra__ponto{background:var(--ouro);box-shadow:0 0 0 4px rgba(227,178,60,.2)}
+.ra--on .ra__nome{color:var(--ouro);font-weight:700}
+.ra--on{background:rgba(227,178,60,.12)}
+.ra--aceso{background:rgba(47,191,113,.12);transform:translateY(-1px)}
+.ra--aceso .ra__ponto{background:#5FE39B;box-shadow:0 0 0 4px rgba(47,191,113,.18)}
+.ra--aceso .ra__nome{color:#9FE8C0}
+
+.mapa__pe{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-top:1.2rem}
+.mapa__legenda{display:flex;flex-wrap:wrap;align-items:center;gap:.45rem 1.2rem;margin:0;color:#9DB5D2;font-size:.82rem}
+.ponto{width:8px;height:8px;border-radius:50%;background:#33507A;display:inline-block}
+.ponto--on{background:var(--ouro);box-shadow:0 0 0 3px rgba(227,178,60,.22)}
+
+.mapa__feitos{margin-top:1.4rem;padding-top:1.4rem;border-top:1px solid var(--linha);animation:sobe .45s ease}
+.mapa__rot{font-family:var(--util);text-transform:uppercase;letter-spacing:.18em;font-weight:700;font-size:.78rem;color:#5FE39B;margin:0 0 .9rem}
+.mapa__feitos ul{display:grid;gap:.7rem}
+.mapa__feitos li{color:#B4C8E2;font-size:.94rem;padding-left:1.4rem;position:relative;line-height:1.5}
+.mapa__feitos li::before{content:"✓";position:absolute;left:0;color:#5FE39B;font-weight:700}
+.mapa__feitos li b{color:#fff}
+.mapa__feitos li a{color:#5FE39B;font-family:var(--util);text-transform:uppercase;letter-spacing:.1em;font-size:.72rem;text-decoration:none;white-space:nowrap}
+.mapa__feitos li a:hover{color:#8DF0BB;text-decoration:underline}
+.mapa__nota{margin:1.1rem 0 0;color:#fff;font-family:var(--display);font-weight:700;font-size:1rem;line-height:1.35;max-width:60ch}
+
+@media (max-width:760px){
+  .mapa__topo{flex-direction:column;align-items:flex-start;gap:.8rem}
+  .mapa__placar{text-align:left}
+  .mapa__grade{grid-template-columns:repeat(auto-fill,minmax(128px,1fr));gap:.35rem;padding:.8rem}
+  .ra__nome{font-size:.68rem}
+  .mapa__pe{flex-direction:column;align-items:stretch}
+  .mapa__pe .btn{width:100%}
 }
