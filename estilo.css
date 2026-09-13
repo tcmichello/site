@@ -1119,3 +1119,109 @@ main section[id]{scroll-margin-top:5.4rem}
   .mapa__pe{flex-direction:column;align-items:stretch}
   .mapa__pe .btn{width:100%}
 }
+
+/* ============================================================
+   AUTORIDADE · feito -> vou expandir
+   ============================================================ */
+.aut{
+  margin-top:clamp(2.2rem,5vw,3.4rem);
+  background:linear-gradient(150deg,var(--azul-800),var(--azul-900));
+  border:1px solid rgba(227,178,60,.35);border-radius:var(--rg);
+  padding:clamp(1.5rem,3.5vw,2.5rem);
+}
+.aut .eyebrow--escuro{color:var(--ouro)}
+.aut__tit{
+  font-family:var(--display);font-weight:900;font-stretch:106%;
+  font-size:clamp(1.35rem,3.2vw,2.2rem);color:#fff;line-height:1.08;letter-spacing:-.025em;
+  margin-bottom:.8rem;
+}
+.aut__tit em{font-style:italic;color:var(--ouro)}
+.aut__sub{color:#B4C8E2;font-size:.98rem;max-width:66ch;margin:0}
+
+.aut__nums{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;
+  background:var(--linha);border:1px solid var(--linha);border-radius:14px;
+  overflow:hidden;margin:1.8rem 0;
+}
+.aut__nums li{background:var(--azul-900);padding:1rem 1.1rem;text-align:center}
+.aut__nums b{
+  display:block;font-family:var(--display);font-style:italic;font-weight:900;font-stretch:110%;
+  font-size:clamp(1.7rem,4vw,2.4rem);color:var(--ouro-claro);line-height:1;letter-spacing:-.03em;
+}
+.aut__nums span{display:block;color:#9DB5D2;font-size:.78rem;margin-top:.35rem;line-height:1.3}
+
+.troca{
+  display:inline-flex;position:relative;background:rgba(0,0,0,.28);
+  border-radius:999px;padding:.28rem;margin-bottom:1.2rem;
+}
+.troca__btn{
+  position:relative;z-index:2;border:0;background:none;cursor:pointer;
+  font-family:var(--util);text-transform:uppercase;letter-spacing:.12em;font-weight:700;
+  font-size:.84rem;color:#9DB5D2;padding:.55rem 1.2rem;border-radius:999px;
+  transition:color .25s;
+}
+.troca__btn.ativo{color:#04162B}
+.troca__pino{
+  position:absolute;z-index:1;top:.28rem;bottom:.28rem;left:.28rem;width:calc(50% - .28rem);
+  background:var(--ouro);border-radius:999px;transition:transform .3s cubic-bezier(.22,.8,.3,1);
+}
+.aut[data-foco="expandir"] .troca__pino{transform:translateX(100%)}
+
+.pares{display:grid;gap:.8rem}
+.par{
+  display:grid;grid-template-columns:44px minmax(0,1fr) 34px minmax(0,1fr);
+  gap:.9rem;align-items:stretch;
+  background:rgba(255,255,255,.04);border:1px solid var(--linha);
+  border-radius:var(--r);padding:1.1rem;
+}
+.par__n{
+  align-self:center;width:38px;height:38px;border-radius:10px;display:grid;place-items:center;
+  background:var(--azul-700);color:var(--ouro);
+  font-family:var(--display);font-style:italic;font-weight:900;font-size:1.15rem;
+}
+.par__lado{padding:.9rem 1rem;border-radius:10px;transition:opacity .3s,background .3s,transform .3s}
+.par__lado--feito{background:rgba(47,191,113,.1);border:1px solid rgba(47,191,113,.3)}
+.par__lado--expandir{background:rgba(227,178,60,.1);border:1px solid rgba(227,178,60,.32)}
+.par__lado p{margin:0;font-size:.92rem;line-height:1.5;color:#C2D4E8}
+.par__tag{
+  display:inline-block;font-family:var(--util);text-transform:uppercase;letter-spacing:.16em;
+  font-weight:700;font-size:.68rem;padding:.2rem .65rem;border-radius:999px;margin-bottom:.5rem;
+}
+.par__tag--feito{background:rgba(47,191,113,.22);color:#5FE39B}
+.par__tag--exp{background:rgba(227,178,60,.22);color:var(--ouro-claro)}
+.par__onde{
+  display:block;font-family:var(--util);text-transform:uppercase;letter-spacing:.1em;
+  font-size:.72rem;color:#8FA7C4;margin-bottom:.4rem;
+}
+.par__onde--exp{color:var(--ouro)}
+.par__fonte,.par__prop{
+  display:inline-block;margin-top:.6rem;font-family:var(--util);text-transform:uppercase;
+  letter-spacing:.1em;font-weight:700;font-size:.7rem;text-decoration:none;
+}
+.par__fonte{color:#5FE39B;border-bottom:1px solid rgba(47,191,113,.4)}
+.par__prop{color:var(--ouro);border-bottom:1px solid rgba(227,178,60,.4)}
+.par__seta{align-self:center;text-align:center;color:var(--ouro);font-size:1.3rem}
+
+/* o alternador dá foco, sem esconder o outro lado */
+.aut[data-foco="feito"] .par__lado--expandir,
+.aut[data-foco="expandir"] .par__lado--feito{opacity:.42}
+.aut[data-foco="feito"] .par__lado--feito,
+.aut[data-foco="expandir"] .par__lado--expandir{transform:scale(1.015)}
+.par:hover .par__lado{opacity:1 !important}
+
+.aut__mapa{margin-top:1.6rem;padding-top:1.5rem;border-top:1px solid var(--linha)}
+.aut__mapa-topo{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.aut__nota{
+  margin:1.1rem 0 0;color:#fff;font-family:var(--display);font-weight:700;
+  font-size:1rem;line-height:1.35;max-width:62ch;
+}
+
+@media (max-width:900px){
+  .par{grid-template-columns:38px minmax(0,1fr);gap:.7rem}
+  .par__n{grid-row:1;align-self:start}
+  .par__lado{grid-column:2}
+  .par__seta{grid-column:2;text-align:left;transform:rotate(90deg);height:22px;line-height:1}
+  .aut__nums{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .troca{width:100%}
+  .troca__btn{flex:1;padding:.6rem .5rem;font-size:.78rem}
+}

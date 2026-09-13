@@ -160,7 +160,55 @@
   })();
 
   /* ==========================================================
-     MAPA DE EXPANSÃO 3 -> 35
+     AUTORIDADE: feito -> vou expandir
+     ========================================================== */
+  (function autoridade() {
+    var lista = $("#pares");
+    if (!lista) return;
+    var pares = D.pares || [];
+    if (!pares.length) return;
+
+    lista.innerHTML = pares.map(function (p, i) {
+      return '<li class="par" data-reveal>' +
+        '<span class="par__n">' + (i + 1) + "</span>" +
+
+        '<div class="par__lado par__lado--feito">' +
+          '<span class="par__tag par__tag--feito">✓ Feito</span>' +
+          '<span class="par__onde">' + p.onde + "</span>" +
+          "<p>" + p.feito + "</p>" +
+          (p.fonte ? '<a class="par__fonte" href="' + p.fonte.url + '" target="_blank" rel="noopener">Conferir em ' + p.fonte.texto + " ↗</a>" : "") +
+        "</div>" +
+
+        '<span class="par__seta" aria-hidden="true">→</span>' +
+
+        '<div class="par__lado par__lado--expandir">' +
+          '<span class="par__tag par__tag--exp">Vou expandir</span>' +
+          '<span class="par__onde par__onde--exp">Nas 35 regiões administrativas</span>' +
+          "<p>" + p.expandir + "</p>" +
+          '<a class="par__prop" href="#propostas">' + p.proposta + " ↓</a>" +
+        "</div>" +
+      "</li>";
+    }).join("");
+
+    // alternador (só muda o foco visual, os dois lados continuam legíveis)
+    var btns = $$(".troca__btn"), caixa = $("#aut");
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        btns.forEach(function (o) {
+          var on = o === b;
+          o.classList.toggle("ativo", on);
+          o.setAttribute("aria-selected", String(on));
+        });
+        caixa.setAttribute("data-foco", b.dataset.lado);
+      });
+    });
+    caixa.setAttribute("data-foco", "feito");
+
+    ligarReveal(lista);
+  })();
+
+  /* ==========================================================
+     MAPA 3 -> 35
      ========================================================== */
   (function mapa() {
     var grade = $("#mapaGrade"), btn = $("#mapaBtn");
@@ -174,17 +222,17 @@
              '<span class="ra__nome">' + r.n + "</span></span>";
     }).join("");
 
-    var conta = $("#mapaConta"), feitos = $("#mapaFeitos");
+    var conta = $("#mapaConta");
     var base = ras.filter(function (r) { return r.comando; }).length;
     var expandido = false;
 
     function contarAte(alvo) {
-      var ini = null, de = base, dur = 1100;
+      var ini = null, de = +conta.textContent, dur = 1100;
       function passo(t) {
         if (!ini) ini = t;
-        var p = Math.min((t - ini) / dur, 1);
-        conta.textContent = Math.round(de + (alvo - de) * (1 - Math.pow(1 - p, 3)));
-        if (p < 1) requestAnimationFrame(passo);
+        var pr = Math.min((t - ini) / dur, 1);
+        conta.textContent = Math.round(de + (alvo - de) * (1 - Math.pow(1 - pr, 3)));
+        if (pr < 1) requestAnimationFrame(passo);
       }
       requestAnimationFrame(passo);
     }
@@ -192,7 +240,6 @@
     btn.addEventListener("click", function () {
       expandido = !expandido;
       var itens = $$(".ra", grade);
-
       if (expandido) {
         itens.forEach(function (el, i) {
           if (el.classList.contains("ra--on")) return;
@@ -201,13 +248,11 @@
         if (reduzido) conta.textContent = ras.length; else contarAte(ras.length);
         btn.textContent = "Voltar ao meu comando";
         grade.classList.add("expandida");
-        feitos.hidden = false;
       } else {
         itens.forEach(function (el) { el.classList.remove("ra--aceso"); });
         conta.textContent = base;
-        btn.textContent = "Expandir para as 35";
+        btn.textContent = "Ver a expansão";
         grade.classList.remove("expandida");
-        feitos.hidden = true;
       }
     });
   })();

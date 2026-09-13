@@ -200,62 +200,51 @@
 
   </div>
 
-    <!-- expansão interativa 3 -> 35 -->
-    <div class="mapa" id="mapa">
-      <div class="mapa__topo">
-        <div>
-          <p class="eyebrow eyebrow--escuro">De onde eu vim para onde eu vou</p>
-          <h3 class="mapa__tit">O que eu fiz aqui,<br><em>eu quero fazer no DF inteiro</em></h3>
-        </div>
-        <div class="mapa__placar">
-          <span class="mapa__conta" id="mapaConta">3</span>
-          <span class="mapa__de">de <b>35</b> regiões administrativas</span>
-        </div>
+    <!-- AUTORIDADE: o que executei -> o que vou expandir -->
+    <div class="aut" id="aut">
+      <div class="aut__cab">
+        <p class="eyebrow eyebrow--escuro">Experiência, não teoria</p>
+        <h3 class="aut__tit">O que eu executei onde comandei,<br><em>eu vou expandir para as 35 regiões</em></h3>
+        <p class="aut__sub">Não estou propondo o que nunca fiz. Cada linha da esquerda já
+          aconteceu, com fonte para conferir. Cada linha da direita é o mesmo método, na escala
+          do Distrito Federal inteiro.</p>
       </div>
 
-      <div class="mapa__grade" id="mapaGrade" role="img" aria-label="As 35 regiões administrativas do Distrito Federal"></div>
+      <ul class="aut__nums">
+        <li><b>28</b><span>anos de PMDF</span></li>
+        <li><b>2</b><span>batalhões comandados</span></li>
+        <li><b>6</b><span>localidades sob meu comando</span></li>
+        <li><b>35</b><span>regiões administrativas do DF</span></li>
+      </ul>
 
-      <div class="mapa__pe">
-        <p class="mapa__legenda">
-          <span class="ponto ponto--on"></span> Sob os batalhões que comandei
-          <span class="ponto"></span> Onde eu quero levar o mesmo método
-        </p>
-        <button type="button" class="btn btn--ouro" id="mapaBtn">Expandir para as 35</button>
+      <div class="troca" role="tablist" aria-label="Alternar entre feito e expansão">
+        <button type="button" class="troca__btn ativo" data-lado="feito" role="tab" aria-selected="true">O que eu já fiz</button>
+        <button type="button" class="troca__btn" data-lado="expandir" role="tab" aria-selected="false">O que vou expandir</button>
+        <span class="troca__pino" aria-hidden="true"></span>
       </div>
 
-      <div class="mapa__feitos" id="mapaFeitos" hidden>
-        <p class="mapa__rot">O que já aconteceu onde eu comandei</p>
-        <ul>
-          <li><b>Noroeste quase zerou as ocorrências em 2025</b>, sob o 3º Batalhão.
-            <a href="https://dfnoroeste.com.br/bairro-mais-seguro-noroeste-quase-zera-ocorrencias-em-2025/" target="_blank" rel="noopener">DF Noroeste ↗</a></li>
-          <li><b>A comunidade pediu para eu ficar</b> quando saí do 7º BPM, no Cruzeiro, Sudoeste e Octogonal.
-            <a href="https://radarsudoeste.com.br/fica-michello-comunidade-lamenta-saida-de-comandante-do-7o-bpm/" target="_blank" rel="noopener">Radar Sudoeste ↗</a></li>
-          <li><b>Dois batalhões comandados</b> entre 2024 e 2025, com responsabilidade direta sobre a segurança dessas regiões.
-            <a href="https://jornaldebrasilia.com.br/brasilia/major-michello-assume-comando-do-7o-bpm/" target="_blank" rel="noopener">Jornal de Brasília ↗</a></li>
-        </ul>
-        <p class="mapa__nota">Como comandante, o meu alcance terminava no limite do batalhão.
+      <ol class="pares" id="pares"></ol>
+
+      <div class="aut__mapa">
+        <div class="aut__mapa-topo">
+          <p class="mapa__rot">Alcance</p>
+          <div class="mapa__placar">
+            <span class="mapa__conta" id="mapaConta">3</span>
+            <span class="mapa__de">de <b>35</b> regiões administrativas</span>
+          </div>
+        </div>
+        <div class="mapa__grade" id="mapaGrade" role="img" aria-label="As 35 regiões administrativas do Distrito Federal"></div>
+        <div class="mapa__pe">
+          <p class="mapa__legenda">
+            <span class="ponto ponto--on"></span> Estiveram sob os batalhões que comandei
+            <span class="ponto"></span> Onde eu quero levar o mesmo método
+          </p>
+          <button type="button" class="btn btn--ouro" id="mapaBtn">Ver a expansão</button>
+        </div>
+        <p class="aut__nota">Como comandante, o meu alcance terminava no limite do batalhão.
           Como deputado distrital, ele passa a ser o Distrito Federal inteiro.</p>
       </div>
     </div>
-
-  </section>
-
-<!-- ============ MINHAS PROPOSTAS ============ -->
-<section class="props" id="propostas">
-  <div class="wrap">
-    <div class="secao">
-      <p class="eyebrow">Ordem sem medo</p>
-      <h2 class="titulo titulo--claro">Minhas propostas</h2>
-      <p class="lead lead--claro">Cinco compromissos e <b>60 ações concretas</b>. Cada uma com
-        prazo, responsável e forma de conferir. Clique para abrir e ver o que eu vou fazer.</p>
-    </div>
-
-    <div class="acc" id="acc"></div>
-
-    <p class="props__fecho" data-reveal>
-      <span>Tudo aqui tem prazo, responsável e forma de conferir.</span>
-      <b>No fim do mandato, cada uma destas ações vira número publicado. É esse o combinado.</b>
-    </p>
   </div>
 </section>
 

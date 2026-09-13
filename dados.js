@@ -70,12 +70,48 @@ window.DADOS = {
      o número está velho. Combine uma rotina mesmo assim.
      ---------------------------------------------------------- */
   vaquinha: {
-    arrecadado:   9765,
+    arrecadado:   14810,
     doadores:     59,
     meta:         150000,
     link:         "https://tcmichello.com.br"
   },
 
+
+  /* ----------------------------------------------------------
+     PARES "FEITO -> VOU EXPANDIR"
+     Esquerda: fato verificado, com link da fonte.
+     Direita: a mesma ação na escala do DF, ligada a uma proposta.
+     ---------------------------------------------------------- */
+  pares: [
+    {
+      feito: "O Noroeste quase zerou as ocorrências em 2025, região sob o 3º Batalhão, que comando desde julho de 2025.",
+      fonte: { texto:"DF Noroeste", url:"https://dfnoroeste.com.br/bairro-mais-seguro-noroeste-quase-zera-ocorrencias-em-2025/" },
+      onde: "3º BPM · Noroeste",
+      expandir: "Meta de redução de ocorrências publicada por região administrativa, a cada três meses, nas 35 RAs. O que não é medido não é cobrado.",
+      proposta: "Proposta 3, ação 11"
+    },
+    {
+      feito: "Quando saí do comando do 7º BPM, moradores e comerciantes do Cruzeiro, Sudoeste e Octogonal se mobilizaram publicamente pedindo que eu ficasse.",
+      fonte: { texto:"Radar Sudoeste", url:"https://radarsudoeste.com.br/fica-michello-comunidade-lamenta-saida-de-comandante-do-7o-bpm/" },
+      onde: "7º BPM · Cruzeiro, Sudoeste e Octogonal",
+      expandir: "Rede de Vizinhos Protegidos vira lei distrital, com orçamento próprio e meta de chegar às 35 regiões. Presença não pode depender do comandante da vez.",
+      proposta: "Proposta 3, ações 1 e 3"
+    },
+    {
+      feito: "Por mais de dez anos fui porta-voz da PMDF, abrindo o trabalho da corporação para a imprensa e para o cidadão todos os dias.",
+      fonte: { texto:"Metrópoles", url:"https://www.metropoles.com/distrito-federal/na-mira/porta-voz-da-pmdf-deixa-assessoria-da-corporacao-para-assumir-7o-bpm" },
+      onde: "Centro de Comunicação Social da PMDF",
+      expandir: "Dado aberto de criminalidade por quadra, todo mês, e um Observatório Distrital de Segurança para orientar a ação com número, e não com achismo.",
+      proposta: "Propostas 3 e 5"
+    },
+    {
+      feito: "Atuei como negociador de crises e servi na Força Nacional em missão no Rio de Janeiro, em operações com reféns e pessoas em risco.",
+      fonte: { texto:"Jornal de Brasília", url:"https://jornaldebrasilia.com.br/brasilia/a-nova-missao-do-major/" },
+      onde: "Força Nacional e negociação de crises",
+      expandir: "Integração permanente entre as forças de segurança do DF e as federais presentes em Brasília. Quem já operou junto sabe onde a comunicação trava.",
+      proposta: "Compromisso das forças de segurança"
+    }
+  ],
 
   /* ----------------------------------------------------------
      REGIÕES ADMINISTRATIVAS DO DF
