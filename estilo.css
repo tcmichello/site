@@ -1227,3 +1227,9 @@ main section[id]{scroll-margin-top:5.4rem}
 }
 .rodape__eq{opacity:.55;border-left:1px solid var(--linha);padding-left:1.6rem}
 .rodape__eq:hover{opacity:1}
+
+/* ============================================================
+   SEÇÃO PRÓPRIA DA EXPERIÊNCIA (antes ficava dentro das pautas)
+   ============================================================ */
+.expsec{background:var(--gelo);padding:clamp(3rem,6vw,4.5rem) 0}
+.expsec .aut{margin-top:0}

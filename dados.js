@@ -114,6 +114,10 @@ window.DADOS = {
   ],
 
   /* ----------------------------------------------------------
+     REGIÕES  [DESATIVADO]
+     O seletor de regiões saiu do site. Os textos ficam aqui
+     guardados caso a campanha queira retomar a seção.
+     ----------------------------------------------------------
      REGIÕES ADMINISTRATIVAS DO DF
      As 35 RAs. `comando: true` marca as que estiveram sob os
      batalhões que ele comandou (7º BPM e 3º BPM).
@@ -246,6 +250,10 @@ window.DADOS = {
   ],
 
   /* ----------------------------------------------------------
+     REGIÕES  [DESATIVADO]
+     O seletor de regiões saiu do site. Os textos ficam aqui
+     guardados caso a campanha queira retomar a seção.
+     ----------------------------------------------------------
      REGIÕES
      `comandou` = true quando a região está sob um dos batalhões
      que ele comandou (7º BPM ou 3º BPM).
