@@ -1225,3 +1225,5 @@ main section[id]{scroll-margin-top:5.4rem}
   .troca{width:100%}
   .troca__btn{flex:1;padding:.6rem .5rem;font-size:.78rem}
 }
+.rodape__eq{opacity:.55;border-left:1px solid var(--linha);padding-left:1.6rem}
+.rodape__eq:hover{opacity:1}

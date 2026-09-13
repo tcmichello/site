@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Materiais da campanha · Coronel Michello 20122</title>
+<meta name="description" content="Biblioteca de materiais da campanha: logos, fotos, vídeos, jingle e links oficiais.">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#032958">
+<link rel="icon" href="../favicon-512.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wght@0,400..900;1,400..900&family=Barlow:wght@400;500;600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="materiais.css">
+</head>
+<body>
+
+<header class="topo">
+  <div class="wrap topo__wrap">
+    <a class="topo__volta" href="../">← Site da campanha</a>
+    <img class="topo__logo" src="../lockup.webp" alt="Coronel Michello 20122" width="900" height="657">
+    <h1>Materiais da campanha</h1>
+    <p class="topo__sub">Tudo que a equipe precisa, num lugar só. Clique para baixar ou copiar o link.</p>
+
+    <div class="busca">
+      <input type="search" id="busca" placeholder="Buscar: logo, foto, jingle, filtro, folheto..." aria-label="Buscar material" autocomplete="off">
+      <span class="busca__conta" id="conta"></span>
+    </div>
+
+    <nav class="filtros" id="filtros" aria-label="Filtrar por categoria"></nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="grade" id="grade"></div>
+  <p class="vazio" id="vazio" hidden>Nada encontrado com esse termo. Tente outra palavra.</p>
+
+  <section class="ajuda">
+    <h2>Como acrescentar material novo</h2>
+    <ol>
+      <li><b>Arquivo pequeno</b> (logo, foto, PDF até 25 MB): suba o arquivo na raiz do
+        repositório no GitHub e depois acrescente um bloco em <code>materiais/itens.js</code>
+        com <code>arquivo: "../nome-do-arquivo.png"</code>.</li>
+      <li><b>Arquivo grande</b> (vídeo bruto, pasta de fotos, material de gráfica): suba no
+        Google Drive, gere o link de compartilhamento com acesso "qualquer pessoa com o link"
+        e cole esse link em <code>arquivo:</code>, usando <code>tipo: "link"</code>.</li>
+      <li>Preencha as <code>tags</code> com as palavras que alguém digitaria para achar aquilo.
+        É isso que faz a busca funcionar.</li>
+    </ol>
+    <p class="ajuda__aviso"><b>Atenção:</b> esta página é pública para quem tiver o endereço.
+      Não coloque aqui contrato, planilha de custo, dado pessoal de apoiador ou qualquer coisa
+      que não possa vazar.</p>
+  </section>
+</main>
+
+<footer class="rodape">
+  <p>Coronel Michello · Deputado Distrital · Podemos (20) · Distrito Federal</p>
+  <p>CNPJ de campanha: 20.329.974/0001-20 · Conteúdo de propaganda eleitoral.</p>
+</footer>
+
+<div class="aviso" id="aviso" role="status" aria-live="polite"></div>
+
+<script src="itens.js"></script>
+<script src="materiais.js"></script>
+</body>
+</html>
