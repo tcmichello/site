@@ -143,3 +143,9 @@ button{font:inherit;background:none;border:0;padding:0;cursor:pointer;text-align
   .link-next{padding:0 24px}.link-close{padding:0 16px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* resumo do compromisso (versão post) e arco dourado */
+.card__sum{margin-top:8px;font-size:15.5px;line-height:1.4;font-weight:600;color:var(--white);opacity:.92;max-width:44ch}
+.arc{display:block;width:100%;height:14px;margin:26px 0 2px;overflow:visible}
+.arc path{fill:none;stroke:var(--gold);stroke-width:4}
+.arc .arc__thin{stroke:rgba(255,255,255,.55);stroke-width:1.5}
