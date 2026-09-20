@@ -1,7 +1,5 @@
 /* ============================================================
    CORONEL MICHELLO 20122 · app.js
-   Sem dependências. Ordem: nav, reveal, região, jingle,
-   urna, vídeos, imprensa, vaquinha, canais, formulário.
    ============================================================ */
 (function () {
   "use strict";
@@ -16,7 +14,6 @@
   window.addEventListener("load", function () { document.body.classList.add("carregado"); });
   setTimeout(function () { document.body.classList.add("carregado"); }, 1200);
 
-  /* ---------- reveal ---------- */
   function ligarReveal(raiz) {
     var alvos = $$("[data-reveal]", raiz || document).filter(function (e) { return !e.classList.contains("visivel"); });
     if (reduzido || !("IntersectionObserver" in window)) {
@@ -33,15 +30,13 @@
     alvos.forEach(function (e) { obs.observe(e); });
   }
 
-  /* ==========================================================
-     NAVEGAÇÃO
-     ========================================================== */
+  /* ========================= NAV ========================= */
   (function nav() {
     var barra = $("#nav"), topo = $("#btnTopo"), tb = document.querySelector(".topbar");
     function aoRolar() {
       var y = window.scrollY;
       barra.classList.toggle("fixo", y > 80);
-      if (tb) tb.classList.toggle("oculta", y > 80);   // some ao rolar, senão o menu passa por cima
+      if (tb) tb.classList.toggle("oculta", y > 80);
       if (topo) topo.hidden = y < 700;
     }
     window.addEventListener("scroll", aoRolar, { passive: true });
@@ -78,188 +73,63 @@
     }
   })();
 
-  /* ==========================================================
-     SUA REGIÃO
-     ========================================================== */
-  (function regiao() {
-    var chips = $("#chips"), painel = $("#painel");
-    if (!chips || !painel) return;
-    var lista = D.regioes || [];
-    if (!lista.length) return;
-    var dado = D.dadoRua || {};
+  /* ========================= JINGLE ========================= */
+  (function jingle() {
+    var audio = $("#jingleAudio");
+    if (!audio) return;
+    var bar = $("#jbar"), btn = $("#jbarPlay");
+    var barra = $("#jbarBarra"), prog = $("#jbarProg");
+    var atual = $("#jbarAtual"), total = $("#jbarTotal");
+    audio.volume = .85;
 
-    chips.innerHTML = lista.map(function (r, i) {
-      return '<button type="button" class="chip" role="tab" data-i="' + i + '"' +
-             (r.comandou ? ' data-comandou="1"' : "") +
-             ' aria-selected="false">' + r.nome + "</button>";
-    }).join("");
+    function mmss(v) {
+      if (!isFinite(v)) return "0:00";
+      var m = Math.floor(v / 60), sg = Math.floor(v % 60);
+      return m + ":" + (sg < 10 ? "0" : "") + sg;
+    }
+    function alternar() {
+      if (audio.paused) { var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {}); }
+      else audio.pause();
+    }
+    if (btn) btn.addEventListener("click", alternar);
 
-    function pintar(i) {
-      var r = lista[i];
-      var temFeito = !!r.feito;
-
-      var blocoFeito = temFeito
-        ? '<div class="painel__feito">' +
-            '<p class="painel__rot painel__rot--verde">O que eu já fiz aqui</p>' +
-            "<p>" + r.feito + "</p>" +
-            (r.fonte ? '<a class="painel__fonte-link" href="' + r.fonte.url +
-                       '" target="_blank" rel="noopener">Conferir em ' + r.fonte.texto + " ↗</a>" : "") +
-          "</div>"
-        : '<div class="painel__feito painel__feito--sem">' +
-            '<p class="painel__rot">Aqui eu não comandei</p>' +
-            "<p>" + (D.semComando || "") + "</p>" +
-          "</div>";
-
-      painel.innerHTML =
-        '<div class="painel__esq">' +
-          (r.comandou
-            ? '<span class="painel__selo">★ Comandei o ' + r.batalhao + " daqui, desde " + r.desde + "</span>"
-            : '<span class="painel__selo painel__selo--neutro">Região vizinha ao meu comando</span>') +
-          '<p class="painel__nome">' + r.nome + "</p>" +
-          '<p class="painel__frase">' + r.frase + "</p>" +
-          '<p class="painel__txt">' + r.texto + "</p>" +
-          blocoFeito +
-        "</div>" +
-        '<div class="painel__dir">' +
-          '<p class="painel__rot">O problema em número</p>' +
-          '<p class="painel__dado"><b>' + (dado.destaque || "") + "</b> " + (dado.texto || "") + "</p>" +
-          '<p class="painel__fonte">' + (dado.fonte || "") + "</p>" +
-          '<div class="painel__ampliar">' +
-            '<span class="painel__35">35</span>' +
-            "<p>" + (D.ampliar || "") + "</p>" +
-          "</div>" +
-        "</div>";
-
-      painel.classList.remove("trocando");
-      void painel.offsetWidth;
-      painel.classList.add("trocando");
-
-      $$(".chip", chips).forEach(function (c) {
-        var on = +c.dataset.i === i;
-        c.classList.toggle("ativo", on);
-        c.setAttribute("aria-selected", String(on));
+    function pintar() {
+      var t = !audio.paused;
+      if (bar) bar.classList.toggle("tocando", t);
+      if (btn) btn.setAttribute("aria-label", t ? "Pausar o jingle" : "Tocar o jingle");
+    }
+    audio.addEventListener("play", pintar);
+    audio.addEventListener("pause", pintar);
+    audio.addEventListener("ended", function () { audio.currentTime = 0; pintar(); });
+    audio.addEventListener("loadedmetadata", function () {
+      if (total) total.textContent = mmss(audio.duration);
+    });
+    audio.addEventListener("timeupdate", function () {
+      if (!prog) return;
+      var pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+      prog.style.width = pct + "%";
+      if (atual) atual.textContent = mmss(audio.currentTime);
+      if (barra) barra.setAttribute("aria-valuenow", Math.round(pct));
+    });
+    if (barra) {
+      barra.addEventListener("click", function (ev) {
+        var r = barra.getBoundingClientRect();
+        if (audio.duration) audio.currentTime = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)) * audio.duration;
+      });
+      barra.addEventListener("keydown", function (ev) {
+        if (!audio.duration) return;
+        if (ev.key === "ArrowRight") { ev.preventDefault(); audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); }
+        if (ev.key === "ArrowLeft") { ev.preventDefault(); audio.currentTime = Math.max(0, audio.currentTime - 5); }
+        if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); alternar(); }
       });
     }
-
-    chips.addEventListener("click", function (ev) {
-      var c = ev.target.closest(".chip");
-      if (c) pintar(+c.dataset.i);
+    document.addEventListener("click", function (ev) {
+      if (ev.target.closest(".urna__teclado") && !audio.paused) audio.pause();
     });
-    chips.addEventListener("keydown", function (ev) {
-      if (ev.key !== "ArrowRight" && ev.key !== "ArrowLeft") return;
-      var todos = $$(".chip", chips);
-      var atual = todos.indexOf(document.activeElement);
-      if (atual < 0) return;
-      ev.preventDefault();
-      var prox = (atual + (ev.key === "ArrowRight" ? 1 : -1) + todos.length) % todos.length;
-      todos[prox].focus();
-      pintar(+todos[prox].dataset.i);
-    });
-
-    pintar(0);
+    pintar();
   })();
 
-  /* ==========================================================
-     AUTORIDADE: feito -> vou expandir
-     ========================================================== */
-  (function autoridade() {
-    var lista = $("#pares");
-    if (!lista) return;
-    var pares = D.pares || [];
-    if (!pares.length) return;
-
-    lista.innerHTML = pares.map(function (p, i) {
-      return '<li class="par" data-reveal>' +
-        '<span class="par__n">' + (i + 1) + "</span>" +
-
-        '<div class="par__lado par__lado--feito">' +
-          '<span class="par__tag par__tag--feito">✓ Feito</span>' +
-          '<span class="par__onde">' + p.onde + "</span>" +
-          "<p>" + p.feito + "</p>" +
-          (p.fonte ? '<a class="par__fonte" href="' + p.fonte.url + '" target="_blank" rel="noopener">Conferir em ' + p.fonte.texto + " ↗</a>" : "") +
-        "</div>" +
-
-        '<span class="par__seta" aria-hidden="true">→</span>' +
-
-        '<div class="par__lado par__lado--expandir">' +
-          '<span class="par__tag par__tag--exp">Vou expandir</span>' +
-          '<span class="par__onde par__onde--exp">Nas 35 regiões administrativas</span>' +
-          "<p>" + p.expandir + "</p>" +
-          '<a class="par__prop" href="#propostas">' + p.proposta + " ↓</a>" +
-        "</div>" +
-      "</li>";
-    }).join("");
-
-    // alternador (só muda o foco visual, os dois lados continuam legíveis)
-    var btns = $$(".troca__btn"), caixa = $("#aut");
-    btns.forEach(function (b) {
-      b.addEventListener("click", function () {
-        btns.forEach(function (o) {
-          var on = o === b;
-          o.classList.toggle("ativo", on);
-          o.setAttribute("aria-selected", String(on));
-        });
-        caixa.setAttribute("data-foco", b.dataset.lado);
-      });
-    });
-    caixa.setAttribute("data-foco", "feito");
-
-    ligarReveal(lista);
-  })();
-
-  /* ==========================================================
-     MAPA 3 -> 35
-     ========================================================== */
-  (function mapa() {
-    var grade = $("#mapaGrade"), btn = $("#mapaBtn");
-    if (!grade) return;
-    var ras = D.ras || [];
-    if (!ras.length) return;
-
-    grade.innerHTML = ras.map(function (r) {
-      return '<span class="ra' + (r.comando ? " ra--on" : "") + '" title="' + r.n + '">' +
-             '<span class="ra__ponto" aria-hidden="true"></span>' +
-             '<span class="ra__nome">' + r.n + "</span></span>";
-    }).join("");
-
-    var conta = $("#mapaConta");
-    var base = ras.filter(function (r) { return r.comando; }).length;
-    var expandido = false;
-
-    function contarAte(alvo) {
-      var ini = null, de = +conta.textContent, dur = 1100;
-      function passo(t) {
-        if (!ini) ini = t;
-        var pr = Math.min((t - ini) / dur, 1);
-        conta.textContent = Math.round(de + (alvo - de) * (1 - Math.pow(1 - pr, 3)));
-        if (pr < 1) requestAnimationFrame(passo);
-      }
-      requestAnimationFrame(passo);
-    }
-
-    btn.addEventListener("click", function () {
-      expandido = !expandido;
-      var itens = $$(".ra", grade);
-      if (expandido) {
-        itens.forEach(function (el, i) {
-          if (el.classList.contains("ra--on")) return;
-          setTimeout(function () { el.classList.add("ra--aceso"); }, reduzido ? 0 : i * 26);
-        });
-        if (reduzido) conta.textContent = ras.length; else contarAte(ras.length);
-        btn.textContent = "Voltar ao meu comando";
-        grade.classList.add("expandida");
-      } else {
-        itens.forEach(function (el) { el.classList.remove("ra--aceso"); });
-        conta.textContent = base;
-        btn.textContent = "Ver a expansão";
-        grade.classList.remove("expandida");
-      }
-    });
-  })();
-
-  /* ==========================================================
-     PROPOSTAS (acordeão)
-     ========================================================== */
+  /* ========================= PROPOSTAS ========================= */
   (function propostas() {
     var caixa = $("#acc");
     if (!caixa) return;
@@ -268,12 +138,13 @@
 
     caixa.innerHTML = lista.map(function (p, i) {
       var acoes = p.acoes.map(function (a, j) {
-        return '<li><span class="acc__num">' + (j + 1) + "</span>" +
-               '<span class="acc__acao"><b>' + a[0] + "</b> " + a[1] + "</span></li>";
+        var txt = (typeof a === "string") ? a : ("<b>" + a[0] + "</b> " + a[1]);
+        return '<li><span class="acc__num">' + (j + 1 < 10 ? "0" : "") + (j + 1) + "</span>" +
+               '<span class="acc__acao">' + txt + "</span></li>";
       }).join("");
       return '<article class="acc__item" data-reveal>' +
         '<h3><button type="button" class="acc__cab" aria-expanded="false" aria-controls="acc-p' + i + '">' +
-          '<span class="acc__n">' + p.n + "</span>" +
+          '<span class="acc__n">' + (p.n < 10 ? "0" : "") + p.n + "</span>" +
           '<span class="acc__tit"><b>' + p.titulo + "</b>" +
             '<span class="acc__res">' + p.resumo + "</span></span>" +
           '<span class="acc__conta">12 ações</span>' +
@@ -281,9 +152,9 @@
         "</button></h3>" +
         '<div class="acc__corpo" id="acc-p' + i + '" hidden>' +
           '<div class="acc__miolo">' +
+            '<p class="acc__diag">' + p.diagnostico + "</p>" +
             '<p class="acc__frase">&ldquo;' + p.frase + '&rdquo;</p>' +
-            '<p class="acc__diag"><b>O problema:</b> ' + p.diagnostico + "</p>" +
-            '<p class="acc__rot">O que eu vou fazer como deputado distrital</p>' +
+            '<p class="acc__rot">Pelo que eu vou lutar como deputado distrital</p>' +
             '<ol class="acc__acoes">' + acoes + "</ol>" +
           "</div>" +
         "</div>" +
@@ -318,247 +189,101 @@
     ligarReveal(caixa);
   })();
 
-  /* ==========================================================
-     JINGLE
-     ========================================================== */
-  (function jingle() {
-    var audio = $("#jingleAudio");
-    if (!audio) return;
-    var btnHero = $("#jinglePlay"), rot = $("#jingleRotulo");
-    var bar = $("#jbar"), btnBar = $("#jbarPlay");
-    var barra = $("#jbarBarra"), prog = $("#jbarProg");
-    var atual = $("#jbarAtual"), total = $("#jbarTotal");
-    audio.volume = .85;
+  /* ========================= AUTORIDADE ========================= */
+  (function autoridade() {
+    var lista = $("#pares");
+    if (!lista) return;
+    var pares = D.pares || [];
+    if (!pares.length) return;
 
-    function mmss(v) {
-      if (!isFinite(v)) return "0:00";
-      var m = Math.floor(v / 60), sg = Math.floor(v % 60);
-      return m + ":" + (sg < 10 ? "0" : "") + sg;
-    }
-    function alternar() {
-      if (audio.paused) { var pr = audio.play(); if (pr && pr.catch) pr.catch(function () {}); }
-      else audio.pause();
-    }
-    if (btnHero) btnHero.addEventListener("click", alternar);
-    if (btnBar) btnBar.addEventListener("click", alternar);
+    lista.innerHTML = pares.map(function (p, i) {
+      return '<li class="par" data-reveal>' +
+        '<span class="par__n">' + (i + 1) + "</span>" +
+        '<div class="par__lado par__lado--feito">' +
+          '<span class="par__tag par__tag--feito">✓ Feito</span>' +
+          '<span class="par__onde">' + p.onde + "</span>" +
+          "<p>" + p.feito + "</p>" +
+          (p.fonte ? '<a class="par__fonte" href="' + p.fonte.url + '" target="_blank" rel="noopener">Conferir em ' + p.fonte.texto + " ↗</a>" : "") +
+        "</div>" +
+        '<span class="par__seta" aria-hidden="true">→</span>' +
+        '<div class="par__lado par__lado--expandir">' +
+          '<span class="par__tag par__tag--exp">Vou expandir</span>' +
+          '<span class="par__onde par__onde--exp">Para todo o Distrito Federal</span>' +
+          "<p>" + p.expandir + "</p>" +
+          '<a class="par__prop" href="#propostas">' + p.proposta + " ↑</a>" +
+        "</div>" +
+      "</li>";
+    }).join("");
 
-    function pintar() {
-      var t = !audio.paused;
-      if (btnHero) {
-        btnHero.classList.toggle("tocando", t);
-        btnHero.setAttribute("aria-label", t ? "Pausar o jingle" : "Tocar o jingle");
-      }
-      if (rot) rot.textContent = t ? "Tocando" : "Ouvir o jingle";
-      if (bar) bar.classList.toggle("tocando", t);
-      if (btnBar) btnBar.setAttribute("aria-label", t ? "Pausar o jingle" : "Tocar o jingle");
-    }
-    audio.addEventListener("play", pintar);
-    audio.addEventListener("pause", pintar);
-    audio.addEventListener("ended", function () { audio.currentTime = 0; pintar(); });
-    audio.addEventListener("loadedmetadata", function () {
-      if (total) total.textContent = mmss(audio.duration);
-    });
-    audio.addEventListener("timeupdate", function () {
-      if (!prog) return;
-      var pct = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
-      prog.style.width = pct + "%";
-      if (atual) atual.textContent = mmss(audio.currentTime);
-      if (barra) barra.setAttribute("aria-valuenow", Math.round(pct));
-    });
-    if (barra) {
-      barra.addEventListener("click", function (ev) {
-        var r = barra.getBoundingClientRect();
-        if (audio.duration) audio.currentTime = Math.max(0, Math.min(1, (ev.clientX - r.left) / r.width)) * audio.duration;
+    var btns = $$(".troca__btn"), caixa = $("#aut");
+    btns.forEach(function (b) {
+      b.addEventListener("click", function () {
+        btns.forEach(function (o) {
+          var on = o === b;
+          o.classList.toggle("ativo", on);
+          o.setAttribute("aria-selected", String(on));
+        });
+        caixa.setAttribute("data-foco", b.dataset.lado);
       });
-      barra.addEventListener("keydown", function (ev) {
-        if (!audio.duration) return;
-        if (ev.key === "ArrowRight") { ev.preventDefault(); audio.currentTime = Math.min(audio.duration, audio.currentTime + 5); }
-        if (ev.key === "ArrowLeft") { ev.preventDefault(); audio.currentTime = Math.max(0, audio.currentTime - 5); }
-        if (ev.key === " " || ev.key === "Enter") { ev.preventDefault(); alternar(); }
-      });
-    }
-    document.addEventListener("click", function (ev) {
-      if (ev.target.closest(".urna__teclado") && !audio.paused) audio.pause();
     });
-    pintar();
+    caixa.setAttribute("data-foco", "feito");
+    ligarReveal(lista);
   })();
 
-  /* ==========================================================
-     URNA
-     ========================================================== */
-  (function urna() {
-    var raiz = $("#urnaApp");
-    if (!raiz) return;
-    var caixas = $$(".digito", raiz), aviso = $("#urnaAviso");
-    var ficha = $("#urnaFicha"), foto = $("#urnaFoto"), sucesso = $("#urnaSucesso");
-    var confirma = $(".tecla--confirma", raiz);
-    var digitos = "", branco = false, somLigado = true;
+  /* ========================= MAPA ========================= */
+  (function mapa() {
+    var grade = $("#mapaGrade"), btn = $("#mapaBtn");
+    if (!grade) return;
+    var ras = D.ras || [];
+    if (!ras.length) return;
 
-    var SONS = {};
-    ["tecla", "confirma", "erro"].forEach(function (n) {
-      var a = new Audio("urna-" + n + ".mp3");
-      a.preload = "auto";
-      a.volume = n === "tecla" ? .5 : .65;
-      SONS[n] = a;
-    });
-    // navegadores só liberam áudio depois de um toque do visitante.
-    // aqui a gente destrava tudo no primeiro toque em qualquer lugar da página.
-    var destravado = false;
-    function destravar() {
-      if (destravado) return;
-      destravado = true;
-      Object.keys(SONS).forEach(function (k) {
-        var a = SONS[k], v = a.volume;
-        a.volume = 0;
-        var pr = a.play();
-        if (pr && pr.then) pr.then(function () {
-          a.pause(); a.currentTime = 0; a.volume = v;
-        }).catch(function () { a.volume = v; });
-        else { a.pause(); a.currentTime = 0; a.volume = v; }
-      });
-    }
-    ["pointerdown", "keydown", "touchstart"].forEach(function (ev) {
-      document.addEventListener(ev, destravar, { once: true, passive: true });
-    });
+    grade.innerHTML = ras.map(function (r) {
+      return '<span class="ra' + (r.comando ? " ra--on" : "") + '" title="' + r.n + '">' +
+             '<span class="ra__ponto" aria-hidden="true"></span>' +
+             '<span class="ra__nome">' + r.n + "</span></span>";
+    }).join("");
 
-    function bip(n) {
-      if (!somLigado || !SONS[n]) return;
-      destravar();
-      try {
-        var a = SONS[n];
-        a.currentTime = 0;
-        var p = a.play();
-        if (p && p.catch) p.catch(function () {});
-      } catch (e) {}
-    }
+    var conta = $("#mapaConta");
+    var base = ras.filter(function (r) { return r.comando; }).length;
+    var expandido = false;
+    if (conta) conta.textContent = base;
 
-    var dica = $(".urna__dica", raiz);
-    var btnSom = document.createElement("button");
-    btnSom.type = "button"; btnSom.className = "mini";
-    btnSom.style.marginLeft = ".8rem";
-    btnSom.textContent = "Desligar o som";
-    btnSom.setAttribute("aria-pressed", "true");
-    btnSom.addEventListener("click", function () {
-      somLigado = !somLigado;
-      btnSom.textContent = somLigado ? "Desligar o som" : "Ligar o som";
-      btnSom.setAttribute("aria-pressed", String(somLigado));
-      if (somLigado) bip("tecla");
-    });
-    if (dica) dica.appendChild(btnSom);
-
-    function pintar() {
-      caixas.forEach(function (c, i) {
-        var v = digitos[i] || "";
-        if (c.textContent !== v) {
-          c.textContent = v;
-          c.classList.toggle("cheio", !!v);
-        }
-      });
-    }
-    function avaliar() {
-      aviso.classList.remove("erro");
-      confirma.classList.remove("pronto");
-      if (branco) {
-        aviso.textContent = "Voto em branco. Aperte CONFIRMA.";
-        confirma.classList.add("pronto"); return;
+    function contarAte(alvo) {
+      var ini = null, de = +conta.textContent, dur = 1100;
+      function passo(t) {
+        if (!ini) ini = t;
+        var pr = Math.min((t - ini) / dur, 1);
+        conta.textContent = Math.round(de + (alvo - de) * (1 - Math.pow(1 - pr, 3)));
+        if (pr < 1) requestAnimationFrame(passo);
       }
-      if (digitos.length < 5) {
-        ficha.hidden = true; foto.hidden = true;
-        aviso.textContent = digitos.length === 0
-          ? "Digite o número do candidato"
-          : "Faltam " + (5 - digitos.length) + " número(s)";
-        return;
-      }
-      if (digitos === NUMERO) {
-        ficha.hidden = false; foto.hidden = false;
-        aviso.textContent = "Confira o nome e a foto. Aperte CONFIRMA.";
-        confirma.classList.add("pronto");
-        bip("confirma");
+      requestAnimationFrame(passo);
+    }
+
+    btn.addEventListener("click", function () {
+      expandido = !expandido;
+      var itens = $$(".ra", grade);
+      if (expandido) {
+        itens.forEach(function (el, i) {
+          if (el.classList.contains("ra--on")) return;
+          setTimeout(function () { el.classList.add("ra--aceso"); }, reduzido ? 0 : i * 26);
+        });
+        if (reduzido) conta.textContent = ras.length; else contarAte(ras.length);
+        btn.textContent = "Voltar ao meu comando";
+        grade.classList.add("expandida");
       } else {
-        ficha.hidden = true; foto.hidden = true;
-        aviso.textContent = "Esse não é o número do Coronel Michello. Aperte CORRIGE e tente " + NUMERO + ".";
-        aviso.classList.add("erro");
-        bip("erro");
-      }
-    }
-    function digitar(n) {
-      if (branco || digitos.length >= 5) return;
-      digitos += n; bip("tecla"); pintar(); avaliar();
-    }
-    function corrigir() {
-      digitos = ""; branco = false; sucesso.hidden = true;
-      bip("tecla"); pintar(); avaliar();
-    }
-    function confirmar() {
-      if (branco) {
-        aviso.textContent = "Voto em branco não elege ninguém. Aperte CORRIGE e treine o " + NUMERO + ".";
-        aviso.classList.add("erro"); branco = false; return;
-      }
-      if (digitos !== NUMERO) {
-        aviso.textContent = "Digite " + NUMERO + " para concluir o treino.";
-        aviso.classList.add("erro"); bip("erro"); return;
-      }
-      sucesso.hidden = false;
-      bip("confirma");
-    }
-
-    raiz.addEventListener("click", function (ev) {
-      var b = ev.target.closest("button");
-      if (!b) return;
-      b.classList.add("apertada");
-      setTimeout(function () { b.classList.remove("apertada"); }, 110);
-      if (b.dataset.num) return digitar(b.dataset.num);
-      if (b.dataset.acao === "corrige" || b.dataset.acao === "reiniciar") return corrigir();
-      if (b.dataset.acao === "branco") { digitos = ""; branco = true; pintar(); return avaliar(); }
-      if (b.dataset.acao === "confirma") return confirmar();
-    });
-
-    var visivel = false;
-    if ("IntersectionObserver" in window) {
-      new IntersectionObserver(function (e) { visivel = e[0].isIntersecting; }, { threshold: .25 }).observe(raiz);
-    }
-    document.addEventListener("keydown", function (ev) {
-      if (!visivel) return;
-      var t = ev.target.tagName;
-      if (t === "INPUT" || t === "TEXTAREA") return;
-      if (/^[0-9]$/.test(ev.key)) { ev.preventDefault(); digitar(ev.key); }
-      else if (ev.key === "Backspace") { ev.preventDefault(); corrigir(); }
-    });
-
-    var auto = $("#urnaAuto");
-    if (auto) auto.addEventListener("click", function () {
-      corrigir();
-      NUMERO.split("").forEach(function (n, i) {
-        setTimeout(function () { digitar(n); }, reduzido ? 0 : 160 * (i + 1));
-      });
-    });
-
-    var share = $("#urnaCompartilhar");
-    if (share) share.addEventListener("click", async function () {
-      var txt = "Meu voto para deputado distrital é " + NUMERO + ", Coronel Michello. Ordem sem medo.";
-      var url = CFG.urlSite || location.href;
-      if (navigator.share) {
-        try { await navigator.share({ title: "Coronel Michello " + NUMERO, text: txt, url: url }); return; } catch (e) {}
-      }
-      try {
-        await navigator.clipboard.writeText(txt + " " + url);
-        share.textContent = "Texto copiado!";
-        setTimeout(function () { share.textContent = "Mandar para um amigo"; }, 2200);
-      } catch (e) {
-        window.open("https://wa.me/?text=" + encodeURIComponent(txt + " " + url), "_blank", "noopener");
+        itens.forEach(function (el) { el.classList.remove("ra--aceso"); });
+        conta.textContent = base;
+        btn.textContent = "Ver a expansão";
+        grade.classList.remove("expandida");
       }
     });
-
-    pintar(); avaliar();
   })();
 
-  /* ==========================================================
-     VÍDEOS
-     ========================================================== */
+  /* ========================= VÍDEOS ========================= */
   (function videos() {
     var grade = $("#gradeVideos"), palco = $("#videoDestaque");
     if (!grade) return;
-    var lista = (D.videos || []);
+    var lista = D.videos || [];
     if (!lista.length) return;
 
     function capa(v, hd) {
@@ -610,8 +335,8 @@
     var modal = $("#modalVideo"), player = $("#modalPlayer"), foco = null;
     function abrir(v) {
       if (!v || !v.id) { if (v && v.link) window.open(v.link, "_blank", "noopener"); return; }
-      var src = "https://www.youtube-nocookie.com/embed/" + v.id + "?autoplay=1&rel=0";
-      player.innerHTML = '<iframe src="' + src + '" title="' + v.titulo +
+      player.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + v.id +
+        '?autoplay=1&rel=0" title="' + v.titulo +
         '" allow="accelerometer; autoplay; clipboard-write; encrypted-media; picture-in-picture" allowfullscreen></iframe>';
       modal.querySelector(".modal__caixa").classList.toggle("modal__caixa--vert", !!v.vertical);
       foco = document.activeElement;
@@ -636,9 +361,7 @@
     ligarReveal(grade);
   })();
 
-  /* ==========================================================
-     IMPRENSA
-     ========================================================== */
+  /* ========================= IMPRENSA ========================= */
   (function imprensa() {
     var lista = D.midia || [];
     if (!lista.length) return;
@@ -672,9 +395,7 @@
     }
   })();
 
-  /* ==========================================================
-     VAQUINHA
-     ========================================================== */
+  /* ========================= VAQUINHA ========================= */
   (function vaquinha() {
     var prog = $("#vaqProg");
     if (!prog) return;
@@ -690,7 +411,7 @@
 
     var box = $("#vaqDoadores");
     if (box && V.doadores) {
-      box.innerHTML = '<b>' + V.doadores + "</b> pessoas já doaram";
+      box.innerHTML = "<b>" + V.doadores + "</b> pessoas já doaram";
       box.hidden = false;
     }
 
@@ -704,18 +425,16 @@
     obs.observe(prog);
   })();
 
-  /* ==========================================================
-     CANAIS
-     ========================================================== */
+  /* ========================= CANAIS ========================= */
   (function canais() {
     var ul = $("#canais");
     if (!ul) return;
     var L = D.links || {};
     var itens = [
-      { ico: "WA", nome: "WhatsApp da campanha",        desc: "Fale direto com a equipe",   url: L.whatsapp },
-      { ico: "+",  nome: "Seja meu amigo",             desc: "Cadastro oficial de apoiador", url: L.amigos },
-      { ico: "✚", nome: "Quero ser apoiador",         desc: "Formulário da campanha",     url: L.formulario },
-      { ico: "◉",  nome: "Filtro oficial",             desc: "Para os seus stories",       url: L.filtro }
+      { ico: "WA", nome: "WhatsApp da campanha", desc: "Fale direto com a equipe", url: L.whatsapp },
+      { ico: "✚", nome: "Quero ser apoiador", desc: "Formulário da campanha", url: L.formulario },
+      { ico: "+", nome: "Seja meu amigo", desc: "Cadastro oficial de apoiador", url: L.amigos },
+      { ico: "◉", nome: "Filtro oficial", desc: "Para os seus stories", url: L.filtro }
     ].filter(function (i) { return !!i.url; });
 
     ul.innerHTML = itens.map(function (i) {
@@ -727,9 +446,7 @@
     }).join("");
   })();
 
-  /* ==========================================================
-     FORMULÁRIO
-     ========================================================== */
+  /* ========================= FORMULÁRIO ========================= */
   (function form() {
     var f = $("#formParticipe");
     if (!f) return;
@@ -765,13 +482,12 @@
       btnInsta.addEventListener("click", function () {
         var nome = f.elements.nome.value.trim();
         var reg = f.elements.regiao.value.trim();
-        var msg = "Olá! Sou " + (nome || "apoiador") +
-          (reg ? ", da " + reg : "") + ". Quero apoiar o Coronel Michello " + NUMERO + ".";
+        var msg = "Olá! Sou " + (nome || "apoiador") + (reg ? ", da " + reg : "") +
+                  ". Quero apoiar o Coronel Michello " + NUMERO + ".";
         try { navigator.clipboard.writeText(msg); } catch (e) {}
         btnInsta.textContent = "Mensagem copiada, abrindo o perfil...";
         setTimeout(function () {
-          window.open((D.links && D.links.instagram) || "https://www.instagram.com/tc_michello",
-                      "_blank", "noopener");
+          window.open((D.links && D.links.instagram) || "https://www.instagram.com/tc_michello", "_blank", "noopener");
           btnInsta.textContent = "Falar no Instagram";
         }, 900);
       });

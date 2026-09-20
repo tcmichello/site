@@ -1233,3 +1233,12 @@ main section[id]{scroll-margin-top:5.4rem}
    ============================================================ */
 .expsec{background:var(--gelo);padding:clamp(3rem,6vw,4.5rem) 0}
 .expsec .aut{margin-top:0}
+
+/* ações da versão final: número com dois dígitos e texto direto */
+.acc__num{width:28px;font-size:.76rem;letter-spacing:.02em}
+.acc__acoes li{grid-template-columns:30px minmax(0,1fr)}
+.acc__acao{color:#D2E0EF}
+.acc__diag{margin-bottom:1rem}
+.acc__frase{margin-bottom:1.3rem}
+.props__fecho span{margin-bottom:.5rem}
+.props__fecho b{font-style:italic}
