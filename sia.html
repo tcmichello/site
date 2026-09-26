@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Coronel Michello 20122 no SIA · Deputado Distrital</title>
+<title>Coronel Michello 20122 no SIA, Deputado Distrital</title>
 <meta name="description" content="Coronel Michello 20122, deputado distrital: história, desafios de hoje e o que ele vai fazer no SIA, com base nos 5 compromissos e 60 ações da campanha Ordem sem medo.">
 <meta name="theme-color" content="#032958">
 <link rel="canonical" href="https://michello.com.br/sia">
@@ -65,8 +65,8 @@ a:focus-visible,.btn:focus-visible{outline:3px solid var(--ouro-claro);outline-o
 .h1--longo{font-size:clamp(2.6rem,8vw,6rem);line-height:.9}
 .h1 .barra{color:var(--ouro);margin:0 .08em}
 .hero__frase{margin:1.4rem 0 0;max-width:34ch;font-size:clamp(1.15rem,2.2vw,1.45rem);line-height:1.4;color:#E4ECF7}
-.hero__assina{margin:1.6rem 0 0;font-family:var(--util);font-weight:600;font-size:1.1rem;color:var(--texto-claro)}
-.hero__assina .num{color:var(--azul-900);background:var(--ouro);font-family:var(--display);font-style:italic;font-weight:900;padding:.1rem .5rem;border-radius:5px;margin-left:.2rem}
+
+
 .capa{margin:0;position:relative;align-self:stretch}
 .capa img{width:100%;height:100%;max-height:520px;object-fit:cover;border-radius:18px;box-shadow:14px 14px 0 var(--ouro)}
 @media (prefers-reduced-motion:no-preference){
@@ -79,10 +79,10 @@ a:focus-visible,.btn:focus-visible{outline:3px solid var(--ouro-claro);outline-o
 .bloco h2{margin:0 0 1.2rem;font-family:var(--display);font-weight:900;font-size:clamp(1.7rem,3.6vw,2.5rem);line-height:1.05;letter-spacing:-.02em;color:var(--azul-800)}
 .bloco p{margin:0 0 1rem;max-width:68ch}
 
-.historia{display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:clamp(1.5rem,5vw,4rem);align-items:start}
-.ficha{margin:0;display:grid;gap:1rem;border-left:4px solid var(--ouro);padding-left:1.2rem}
-.ficha dt{font-family:var(--util);font-weight:600;color:var(--cinza);font-size:1rem}
-.ficha dd{margin:0;font-family:var(--display);font-style:italic;font-weight:900;font-size:2.2rem;line-height:1;color:var(--azul-800)}
+
+
+
+
 
 .bloco--desafios{background:#fff}
 .desafios{list-style:none;margin:0;padding:0;display:grid;gap:1.4rem;max-width:74ch}
@@ -129,7 +129,8 @@ a.fonte{color:var(--azul-600)}
 .outras a[aria-current]{color:var(--azul-900);font-weight:700;background:var(--ouro);padding:0 .45rem;border-radius:4px}
 
 .rodape{background:var(--azul-900);color:var(--texto-claro);padding:2.5rem 0 calc(2.5rem + env(safe-area-inset-bottom,0px));font-size:.92rem}
-.rodape img{width:200px;margin-bottom:1rem}
+.rodape{text-align:center}
+.rodape img{width:200px;margin:0 auto 1rem}
 .rodape p{margin:.2rem 0}
 
 @media (max-width:820px){
@@ -137,13 +138,92 @@ a.fonte{color:var(--azul-600)}
   .hero__in{grid-template-columns:1fr}
   .capa{order:-1}
   .capa img{max-height:300px;box-shadow:8px 8px 0 var(--ouro)}
-  .historia{grid-template-columns:1fr}
-  .ficha{grid-template-columns:repeat(2,minmax(0,1fr))}
+  
+  
   .acoes{grid-template-columns:1fr}
   .palavra{grid-template-columns:1fr}
   .palavra__foto{max-width:220px;order:2}
   .palavra > div{padding-bottom:0}
 }
+
+/* ===== v2: dinâmico ===== */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.progresso{position:fixed;top:0;left:0;right:0;height:4px;background:var(--ouro);transform:scaleX(0);transform-origin:0 50%;z-index:40;pointer-events:none}
+.barra-topo{position:sticky;top:0;z-index:30}
+.hero__acoes{display:flex;flex-wrap:wrap;align-items:center;gap:1rem 1.6rem;margin-top:1.8rem}
+.hero__link{color:#fff;font-weight:600;text-underline-offset:4px}
+.hero__link:hover{color:var(--ouro-claro)}
+
+/* história: texto fixo à esquerda, linha do tempo à direita */
+.hist{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1.05fr);gap:clamp(2rem,6vw,5rem);align-items:start}
+.hist__lado{position:sticky;top:90px}
+.hist__intro{font-size:1.12rem;line-height:1.65}
+.ficha{margin:1.6rem 0 1.2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem;border-left:4px solid var(--ouro);padding-left:1.1rem}
+.ficha dt{font-family:var(--util);font-weight:600;color:var(--cinza);font-size:.98rem}
+.ficha dd{margin:0;font-family:var(--display);font-style:italic;font-weight:900;font-size:1.9rem;line-height:1.05;color:var(--azul-800)}
+.ficha .dd-lei{font-size:1.15rem;font-style:normal;font-weight:800}
+.fontes{font-size:.93rem;color:var(--cinza)}
+.fontes summary{cursor:pointer;font-weight:600;color:var(--azul-700);padding:.3rem 0}
+.fontes ul{margin:.4rem 0 0;padding-left:1.1rem}
+.fontes li{margin:.25rem 0}
+.linha{list-style:none;margin:0;padding:0 0 0 1.6rem;position:relative}
+.linha::before{content:"";position:absolute;left:.42rem;top:.4rem;bottom:.4rem;width:2px;background:linear-gradient(var(--ouro),var(--azul-600))}
+.marco{position:relative;padding:0 0 1.7rem .6rem}
+.marco::before{content:"";position:absolute;left:-1.52rem;top:.35rem;width:.95rem;height:.95rem;border-radius:50%;background:var(--gelo);border:3px solid var(--ouro)}
+.marco__ano{display:block;font-family:var(--display);font-weight:900;font-style:italic;font-size:1.45rem;line-height:1;color:var(--azul-800);margin-bottom:.35rem}
+.marco p{margin:0}
+.bloco--vila{background:#fff;border-top:1px solid var(--gelo-2)}
+.bloco--vila .marco::before{background:#fff}
+.selo{display:inline-block;margin:0 0 .6rem!important;font-family:var(--util);font-weight:700;color:var(--azul-900);background:var(--ouro);padding:.15rem .6rem;border-radius:5px}
+
+/* ações */
+.acoes{grid-template-columns:repeat(2,minmax(0,1fr))}
+.acao{background:#fff;border-radius:16px;padding:1.4rem 1.4rem 1.5rem;border-top:4px solid var(--ouro);box-shadow:0 18px 40px -28px rgba(4,22,43,.45);transition:transform .25s ease,box-shadow .25s ease}
+.acao:hover{transform:translateY(-3px);box-shadow:0 26px 50px -28px rgba(4,22,43,.55)}
+.arraste{display:none}
+
+/* voto e WhatsApp */
+.btn--zap{display:inline-flex;align-items:center;gap:.6rem;background:#1FAF5A;border-color:#1FAF5A;color:#fff;font-size:1.1rem;padding:1rem 1.8rem}
+.btn--zap:hover{background:#17964c;border-color:#17964c}
+.zap-flutua{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:35;display:inline-flex;align-items:center;gap:.5rem;
+  background:#1FAF5A;color:#fff;text-decoration:none;font-family:var(--util);font-weight:700;font-size:1.05rem;letter-spacing:.04em;
+  padding:.8rem 1.2rem;border-radius:999px;box-shadow:0 14px 30px -10px rgba(0,0,0,.45);opacity:0;transform:translateY(20px);pointer-events:none;transition:opacity .3s,transform .3s}
+.zap-flutua.on{opacity:1;transform:none;pointer-events:auto}
+.zap-flutua:focus-visible{outline:3px solid var(--ouro-claro);outline-offset:3px}
+
+/* busca de regiões */
+.busca input{width:min(100%,420px);font:inherit;padding:.75rem 1rem;border:2px solid var(--gelo-2);border-radius:12px;margin-bottom:1.3rem;background:var(--gelo)}
+.busca input:focus{outline:none;border-color:var(--azul-600);background:#fff}
+.outras li[hidden]{display:none}
+.nada{color:var(--cinza)}
+
+/* revelação ao rolar (só com JS e sem redução de movimento) */
+.anima .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s ease}
+.anima .rv.visto{opacity:1;transform:none}
+.anima .urna span{transform:scale(.6);opacity:0;transition:transform .4s cubic-bezier(.3,1.6,.5,1),opacity .3s}
+.anima .urna.visto span{transform:none;opacity:1}
+.anima .urna.visto span:nth-child(2){transition-delay:.12s}.anima .urna.visto span:nth-child(3){transition-delay:.24s}
+.anima .urna.visto span:nth-child(4){transition-delay:.36s}.anima .urna.visto span:nth-child(5){transition-delay:.48s}
+
+@media (max-width:900px){
+  .hist{grid-template-columns:1fr}
+  .hist__lado{position:static}
+}
+@media (max-width:820px){
+  body{font-size:1rem}
+  .barra-topo__in{min-height:52px}
+  .hero__acoes .btn{width:100%;text-align:center}
+  .acoes{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;gap:1rem;padding:0 1.25rem 1rem;margin:0 -1.25rem 1rem;scrollbar-width:none}
+  .acoes::-webkit-scrollbar{display:none}
+  .acao{flex:0 0 84%;scroll-snap-align:start}
+  .anima .acao.rv{opacity:1;transform:none}
+  .arraste{display:block;font-size:.92rem;color:var(--cinza);margin:0 0 1rem!important}
+  .btn--zap{width:100%;justify-content:center}
+  .zap-flutua{left:12px;right:12px;justify-content:center;bottom:calc(12px + env(safe-area-inset-bottom,0px))}
+  .rodape{padding-bottom:calc(5.5rem + env(safe-area-inset-bottom,0px))}
+  .marco__ano{font-size:1.3rem}
+}
+@media (prefers-reduced-motion:reduce){.acao,.zap-flutua{transition:none}}
 
 </style>
 </head>
@@ -157,6 +237,7 @@ a.fonte{color:var(--azul-600)}
   </div>
 </header>
 
+<div class="progresso" aria-hidden="true"></div>
 <main id="conteudo">
 <section class="hero">
   <span class="hero__marca" aria-hidden="true">XXIX</span>
@@ -165,7 +246,10 @@ a.fonte{color:var(--azul-600)}
       <p class="hero__ra">Região administrativa <span class="romano">XXIX</span> do Distrito Federal</p>
       <h1 class="h1">SIA</h1>
       <p class="hero__frase">Onde o DF trabalha e se abastece, a ordem precisa funcionar.</p>
-      <p class="hero__assina">Coronel Michello, deputado distrital, <span class="num">20122</span></p>
+      <div class="hero__acoes">
+        <a class="btn btn--ouro" href="https://wa.me/5561995623696?text=Ol%C3%A1%21%20Moro%20no%20SIA%20e%20quero%20apoiar%20o%20Coronel%20Michello%2020122." target="_blank" rel="noopener">Falar no WhatsApp</a>
+        <a class="hero__link" href="#t-acoes">Ver o que vou fazer no SIA</a>
+      </div>
     </div>
     <figure class="capa">
       <img src="/capa-sia.jpg" alt="Vista de SIA" width="720" height="900" loading="eager" onerror="this.closest('figure').remove();document.querySelector('.hero').classList.add('hero--sem-foto')">
@@ -174,16 +258,20 @@ a.fonte{color:var(--azul-600)}
 </section>
 
 <section class="bloco bloco--historia" aria-labelledby="t-hist">
-  <div class="wrap historia">
-    <div class="historia__texto">
+  <div class="wrap hist">
+    <div class="hist__lado">
       <h2 id="t-hist">A história</h2>
-      <p>O Setor de Indústria e Abastecimento foi planejado para concentrar indústrias, atacado e serviços de apoio à capital. Tornou-se região administrativa em 2005.</p>
-<p>Tem poucos moradores e muita gente circulando de dia: é um dos maiores polos de emprego do DF, com a Ceasa e grandes centros de comércio.</p>
+      <p class="hist__intro">Começou como área de depósitos das construtoras de Brasília e virou um dos maiores polos de comércio e serviços do DF, com poucos moradores.</p>
+      <dl class="ficha"><div><dt>Origem</dt><dd>1958</dd></div><div><dt>Virou RA pela</dt><dd class="dd-lei">Lei 3.618/2005</dd></div><div><dt>Região administrativa</dt><dd>XXIX</dd></div></dl>
+      <details class="fontes"><summary>Fontes desta história</summary><ul><li><a href="https://ipe.df.gov.br/documents/d/ipedf/estudo-urbano-ambiental-sia-pdf" target="_blank" rel="noopener">Codeplan, Estudo Urbano Ambiental SIA</a></li></ul></details>
     </div>
-    <dl class="ficha">
-      
-      <div><dt>Região administrativa</dt><dd>XXIX</dd></div>
-    </dl>
+    <ol class="linha">
+<li class="marco rv"><span class="marco__ano">1958</span><p>Construtoras ocupam a área com depósitos de materiais.</p></li>
+<li class="marco rv"><span class="marco__ano">1960</span><p>Começa a ocupação ao longo da EPIA, com os trechos 1 a 4.</p></li>
+<li class="marco rv"><span class="marco__ano">1964</span><p>Passa a integrar a RA I, Brasília.</p></li>
+<li class="marco rv"><span class="marco__ano">Anos 1980</span><p>Chegam atacados, revendas de automóveis, hotéis e hipermercados.</p></li>
+<li class="marco rv"><span class="marco__ano">2005</span><p>Torna-se a RA XXIX, desvinculada do Guará.</p></li>
+    </ol>
   </div>
 </section>
 
@@ -191,9 +279,9 @@ a.fonte{color:var(--azul-600)}
   <div class="wrap">
     <h2 id="t-prob">O que pesa no dia a dia</h2>
     <ul class="desafios">
-<li><p><strong>Fraude e concorrência desleal.</strong> Em junho de 2026, o Procon autuou 45 de 131 postos fiscalizados no DF. <span class="fonte">Fonte: Material oficial da campanha</span></p></li>
-<li><p><strong>Esvaziamento à noite.</strong> Setor movimentado de dia e vazio à noite: o risco muda de endereço conforme o horário.</p></li>
-<li><p><strong>Carga e produto roubado.</strong> Área de logística e atacado é alvo de receptação e de comércio de produto roubado.</p></li>
+<li class="rv"><p><strong>Fraude e concorrência desleal.</strong> Em junho de 2026, o Procon autuou 45 de 131 postos fiscalizados no DF. <span class="fonte">Fonte: Material oficial da campanha</span></p></li>
+<li class="rv"><p><strong>Esvaziamento à noite.</strong> Setor movimentado de dia e vazio à noite: o risco muda de endereço conforme o horário.</p></li>
+<li class="rv"><p><strong>Carga e produto roubado.</strong> Área de logística e atacado é alvo de receptação e de comércio de produto roubado.</p></li>
     </ul>
   </div>
 </section>
@@ -201,29 +289,30 @@ a.fonte{color:var(--azul-600)}
 <section class="bloco bloco--acoes" aria-labelledby="t-acoes">
   <div class="wrap">
     <h2 id="t-acoes">O que eu vou fazer no SIA</h2>
-    <p class="intro">Cada item abaixo é uma das 60 ações dos meus cinco compromissos com o DF, aplicada ao que a comunidade daqui enfrenta. Na Câmara Legislativa, é por isso que eu vou lutar, propor e cobrar.</p>
+    <p class="intro">Cada item é uma das 60 ações dos meus cinco compromissos com o DF, aplicada ao que a comunidade daqui enfrenta. Na Câmara Legislativa, é por isso que eu vou lutar, propor e cobrar.</p>
     <ol class="acoes" role="list">
-<li class="acao">
+<li class="acao rv">
   <p class="acao__comp">Compromisso 4: Preços justos</p>
   <h3>Combustível sem fraude</h3>
   <p>Fiscalização de bomba e qualidade do combustível.</p>
 </li>
-<li class="acao">
+<li class="acao rv">
   <p class="acao__comp">Compromisso 4: Preços justos</p>
   <h3>Inteligência contra cartéis e fraudes</h3>
   <p>Inteligência contra preço combinado e fraude.</p>
 </li>
-<li class="acao">
+<li class="acao rv">
   <p class="acao__comp">Compromisso 4: Preços justos</p>
   <h3>Combate ao comércio de produto roubado</h3>
   <p>Cortar a receptação é cortar o incentivo ao roubo.</p>
 </li>
-<li class="acao">
+<li class="acao rv">
   <p class="acao__comp">Compromisso 4: Preços justos</p>
   <h3>Bomba, balança e produto fiscalizados</h3>
   <p>Consumidor e comerciante honesto protegidos.</p>
 </li>
     </ol>
+    <p class="arraste" aria-hidden="true">Arraste para o lado para ver mais</p>
     <a class="link-forte" href="/#propostas">Ver os cinco compromissos completos</a>
   </div>
 </section>
@@ -231,7 +320,7 @@ a.fonte{color:var(--azul-600)}
 <section class="bloco bloco--palavra" aria-labelledby="t-palavra">
   <div class="wrap palavra">
     <img class="palavra__foto" src="https://michello.com.br/michello-recorte.webp" alt="Tenente-Coronel Michello Bueno" width="360" height="420" loading="lazy">
-    <div>
+    <div class="rv">
       <h2 id="t-palavra">Não comandei o batalhão daqui, e não vou dizer que comandei.</h2>
       <p>O que eu trago é o método que funcionou nas seis localidades onde comandei: presença fixa, dado aberto por quadra e resposta com prazo. Como comandante, meu alcance terminava no limite do batalhão. Como deputado distrital, ele passa a ser o Distrito Federal inteiro.</p>
       <p class="palavra__assina">Tenente-Coronel Michello Bueno, 28 anos de PMDF</p>
@@ -243,18 +332,15 @@ a.fonte{color:var(--azul-600)}
   <div class="wrap voto">
     <h2 id="t-voto">No dia 4 de outubro, o primeiro número da urna é o de deputado distrital.</h2>
     <p class="urna" aria-label="Número 2 0 1 2 2"><span>2</span><span>0</span><span>1</span><span>2</span><span>2</span></p>
-    <div class="botoes">
-      <a class="btn btn--ouro" href="https://wa.me/5561995623696?text=Ol%C3%A1%21%20Moro%20no%20SIA%20e%20quero%20apoiar%20o%20Coronel%20Michello%2020122." target="_blank" rel="noopener">Falar com a equipe no WhatsApp</a>
-      <a class="btn btn--linha" href="https://docs.google.com/forms/d/e/1FAIpQLScAlYDu-X0psfz8Ag7cbCkgTQwkevOfA6ScmFfhBeKpEHUvGw/viewform" target="_blank" rel="noopener">Quero ser apoiador</a>
-      <a class="btn btn--linha" href="/#urna">Treinar meu voto</a>
-    </div>
+    <a class="btn btn--zap" href="https://wa.me/5561995623696?text=Ol%C3%A1%21%20Moro%20no%20SIA%20e%20quero%20apoiar%20o%20Coronel%20Michello%2020122." target="_blank" rel="noopener"><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3a.4.4 0 0 0 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3Z"/></svg>Falar com a equipe no WhatsApp</a>
   </div>
 </section>
 
 <nav class="bloco bloco--outras" aria-labelledby="t-outras">
   <div class="wrap">
     <h2 id="t-outras">As 35 regiões do DF</h2>
-    <ul class="outras">
+    <label class="busca"><span class="sr">Buscar região</span><input id="busca" type="search" placeholder="Buscar sua região" autocomplete="off"></label>
+    <ul class="outras" id="lista-ras">
 <li><a href="/planopiloto">Plano Piloto</a></li>
 <li><a href="/gama">Gama</a></li>
 <li><a href="/taguatinga">Taguatinga</a></li>
@@ -291,9 +377,12 @@ a.fonte{color:var(--azul-600)}
 <li><a href="/arapoanga">Arapoanga</a></li>
 <li><a href="/aguaquente">Água Quente</a></li>
     </ul>
+    <p class="nada" id="nada" hidden>Nenhuma região com esse nome.</p>
   </div>
 </nav>
 </main>
+
+<a class="zap-flutua" href="https://wa.me/5561995623696?text=Ol%C3%A1%21%20Moro%20no%20SIA%20e%20quero%20apoiar%20o%20Coronel%20Michello%2020122." target="_blank" rel="noopener" aria-label="Falar com a equipe no WhatsApp"><svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22"><path fill="currentColor" d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm4.5 12.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.3a.4.4 0 0 0 0-.4l-.8-1.9c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6a2.7 2.7 0 0 0 1.8-1.2 2.2 2.2 0 0 0 .1-1.3c0-.1-.2-.2-.5-.3Z"/></svg><span>WhatsApp</span></a>
 
 <footer class="rodape">
   <div class="wrap">
@@ -302,5 +391,30 @@ a.fonte{color:var(--azul-600)}
     <p>CNPJ de campanha: 68.462.311/0001-06. Conteúdo de propaganda eleitoral.</p>
   </div>
 </footer>
+<script>
+(function(){
+  var d=document, root=d.documentElement;
+  var barra=d.querySelector('.progresso'), zap=d.querySelector('.zap-flutua'), hero=d.querySelector('.hero');
+  function rolar(){
+    var h=root.scrollHeight-innerHeight;
+    if(barra) barra.style.transform='scaleX('+(h>0?scrollY/h:0)+')';
+    if(zap&&hero) zap.classList.toggle('on', scrollY>hero.offsetHeight*0.7);
+  }
+  addEventListener('scroll',rolar,{passive:true}); rolar();
+  var calmo=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if('IntersectionObserver' in window && !calmo){
+    root.classList.add('anima');
+    var io=new IntersectionObserver(function(es){es.forEach(function(x){if(x.isIntersecting){x.target.classList.add('visto');io.unobserve(x.target);}});},{threshold:.12});
+    d.querySelectorAll('.rv,.urna').forEach(function(el){io.observe(el);});
+  }
+  var b=d.getElementById('busca'), itens=d.querySelectorAll('#lista-ras li'), nada=d.getElementById('nada');
+  function norm(s){return s.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();}
+  if(b) b.addEventListener('input',function(){
+    var q=norm(b.value.trim()), n=0;
+    itens.forEach(function(li){var ok=norm(li.textContent).indexOf(q)>-1; li.hidden=!ok; if(ok)n++;});
+    nada.hidden=n>0;
+  });
+})();
+</script>
 </body>
 </html>
